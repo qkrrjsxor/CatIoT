@@ -6,7 +6,7 @@ public class Toilet {
 	private int toiletId;
 	private int catId;
 	private LocalDateTime toiletTime;
-	private String toiletType;	// enum - pee/poo
+	private String toiletType;	// enum - pee / poo
 	
 	public Toilet () {}
 
