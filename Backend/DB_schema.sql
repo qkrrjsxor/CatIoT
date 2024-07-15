@@ -4,7 +4,7 @@ USE CIoT;
 
 -- user table
 CREATE TABLE IF NOT EXISTS user(
-	user_id VARCHAR(20) PRIMARY KEY,
+	user_id VARCHAR(20) NOT NULL PRIMARY KEY,
     password VARCHAR(50) NOT NULL,
     user_name VARCHAR(20) NOT NULL
 );
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS meal_schedule(
 	schedule_id INT AUTO_INCREMENT PRIMARY KEY,
     cat_id INT NOT NULL,
     meal_time TIME NOT NULL,
-    meal_amount INT NOT NULL,
+    meal_scheduled_amount INT NOT NULL,
     FOREIGN KEY (cat_id) REFERENCES cat(cat_id)
 );
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS meal_eaten(
 	meal_id INT AUTO_INCREMENT PRIMARY KEY,
     cat_id INT NOT NULL,
     meal_date TIMESTAMP NOT NULL,
-    meal_amount INT NOT NULL,
+    meal_eaten_amount INT NOT NULL,
 	FOREIGN KEY (cat_id) REFERENCES cat(cat_id)
 );
 
