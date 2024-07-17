@@ -36,6 +36,7 @@ public class UserController {
 	// 로그인
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user, HttpSession session){
+		System.out.println("로그인 컨트롤러 실행");
 		User loginUser = userService.login(user.getUserId());
 		
 		if (loginUser == null) {
