@@ -26,3 +26,4 @@
 
 3. Servo
 - PA7(TIM2) : PWN Generator
+- 
