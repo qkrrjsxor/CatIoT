@@ -2,8 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:untitled/screens/mainpage.dart';
 import 'package:untitled/screens/signup.dart';
+import 'package:untitled/screens/logincheck.dart';
 
-class LoginScreen extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  State<Login> createState() => LoginStateScreen();
+}
+
+class LoginStateScreen extends State<Login> {
+  final LoginCheck loginCheck = LoginCheck();
+
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +47,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
+                      controller: userController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -59,6 +71,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -82,14 +95,23 @@ class LoginScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       // 로그인 했을 때 조건 (검증, db 저장, 토큰)
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MainScreen(),
-                          ));
+                      await loginCheck.login(
+                        userController.text,
+                        passwordController.text,
+                      );
+                      // if (loginAnswer == true) {
+                      //   print(userController.text);
+                      //   Navigator.pop(context);
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => MainScreen(),
+                      //       ));
+                      // } else {
+                      //   print('로그인 정보에 문제가 있습니다');
+                      // }
                     },
                     child: Text('로그인', style: TextStyle(color: Colors.white)),
                   ),
@@ -114,7 +136,7 @@ class LoginScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SignupScreen(),
+                                builder: (context) => Signup(),
                               ));
                         },
                         child: Text('회원가입',

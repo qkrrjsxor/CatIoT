@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/login.dart';
-import 'package:untitled/screens/view.dart';
+import 'package:untitled/screens/catscreen.dart';
 import 'package:untitled/screens/health.dart';
 
 void main() {
@@ -20,10 +20,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.yellow,
       ),
       routes: {
-        '/health': (context) => HealthScreen(),
+        '/health': (context) => Health(),
         '/catview': (context) => CatScreen()
       },
-      home: LoginScreen(),
+      home: Login(),
     );
   }
 }
