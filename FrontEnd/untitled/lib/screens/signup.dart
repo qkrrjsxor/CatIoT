@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/mainpage.dart';
+import 'package:untitled/screens/signupcheck.dart';
 
 class SignupScreen extends StatelessWidget {
+  final SignupCheck signupCheck = SignupCheck();
+
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordCheckController = TextEditingController();
+  TextEditingController catNameController = TextEditingController();
+  TextEditingController catGenderController = TextEditingController();
+  TextEditingController catAgeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +46,7 @@ class SignupScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
+                      controller: userController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -59,6 +70,7 @@ class SignupScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -82,6 +94,7 @@ class SignupScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
+                      controller: passwordCheckController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -105,6 +118,7 @@ class SignupScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
+                      controller: catNameController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -128,6 +142,31 @@ class SignupScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
+                      controller: catGenderController,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(223, 197, 197, 197),
+                                  width: 1.0)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(223, 197, 197, 197),
+                              )))),
+                  const SizedBox(height: 8.0),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('고양이 나이',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                  const SizedBox(height: 8.0), // 여백
+                  TextFormField(
+                      controller: catAgeController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -151,7 +190,15 @@ class SignupScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      await signupCheck.signup(
+                        userController.text,
+                        passwordController.text,
+                        passwordCheckController.text,
+                        catNameController.text,
+                        catGenderController.text,
+                        catAgeController.text,
+                      );
                       // 로그인 했을 때 조건 (검증, db 저장, 토큰)
                       Navigator.pop(context);
                       Navigator.push(

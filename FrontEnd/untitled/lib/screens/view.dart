@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/mainpage.dart';
+import 'package:video_player/video_player.dart';
 
-class CatScreen extends StatelessWidget {
-  // final String screenData;
-// ★ 로그인 된 사용자임을 인증 받아야 함
-// ★ 아닌 경우 로그인 페이지로 이동
-  CatScreen();
+class CatScreen extends StatefulWidget {
+  const CatScreen({super.key});
+  @override
+  State<CatScreen> createState() => _MyCatState();
+  // final String Urls = '!!';
+  // controller = VideoPlayerController.Urls(Uri.parse())
+  // _MyCatState createState() => _MyCatState();
+}
+
+class _MyCatState extends State<CatScreen> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = VideoPlayerController.networkUrl(Uri.parse(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'));
+
+    _initializeVideoPlayerFuture = _controller.initialize();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,45 +47,87 @@ class CatScreen extends StatelessWidget {
         backgroundColor: Colors.pink,
         elevation: 0.0,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('우리 고양이의 모습은?'),
-            Container(
-              padding: EdgeInsets.all(30),
-              margin: EdgeInsets.all(10),
-              width: 400,
-              height: 400,
-              decoration:
-                  BoxDecoration(border: Border.all(color: Colors.green)),
+      body: FutureBuilder(
+        future: _initializeVideoPlayerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: VideoPlayer(_controller),
+            );
+          } else {
+            return const Center(
               child: Column(
                 children: [
-                  Text('★★★★홈캠★★★★'),
+                  SizedBox(height: 300),
+                  Text(
+                    '우리집 고양이 보러가는중...',
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                  ),
+                  CircularProgressIndicator(),
                 ],
               ),
-            ),
-            TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.pink,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MainScreen(),
-                      ));
-                },
-                child: Text(
-                  '메인으로 돌아가기',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ))
-          ],
+            );
+          }
+        },
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            if (_controller.value.isPlaying) {
+              _controller.pause();
+            } else {
+              _controller.play();
+            }
+          });
+        },
+        child: Icon(
+          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
         ),
       ),
+
+      // Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Text('우리 고양이의 모습은?'),
+      //       Container(
+      //         padding: EdgeInsets.all(30),
+      //         margin: EdgeInsets.all(10),
+      //         width: 400,
+      //         height: 400,
+      //         decoration:
+      //             BoxDecoration(border: Border.all(color: Colors.green)),
+      //         child: Column(
+      //           children: [
+      //             // Image.network(Urls),
+      //             // controller.play(),
+      //             Text('★★★★홈캠★★★★'),
+      //           ],
+      //         ),
+      //       ),
+      //       TextButton(
+      //           style: TextButton.styleFrom(
+      //             backgroundColor: Colors.pink,
+      //           ),
+      //           onPressed: () {
+      //             Navigator.of(context).pop();
+      //             Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(
+      //                   builder: (context) => MainScreen(),
+      //                 ));
+      //           },
+      //           child: Text(
+      //             '메인으로 돌아가기',
+      //             style: TextStyle(
+      //               color: Colors.white,
+      //             ),
+      //           ))
+      //     ],
+      //   ),
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index) {
           switch (index) {

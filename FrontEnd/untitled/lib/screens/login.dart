@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:untitled/screens/mainpage.dart';
 import 'package:untitled/screens/signup.dart';
+import 'package:untitled/screens/logincheck.dart';
 
 class LoginScreen extends StatelessWidget {
+  final LoginCheck loginCheck = LoginCheck();
+
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +42,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
+                      controller: userController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -59,6 +66,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -82,8 +90,13 @@ class LoginScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       // 로그인 했을 때 조건 (검증, db 저장, 토큰)
+                      await loginCheck.login(
+                        userController.text,
+                        passwordController.text,
+                      );
+                      print(userController.text);
                       Navigator.pop(context);
                       Navigator.push(
                           context,
