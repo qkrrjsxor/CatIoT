@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/mainpage.dart';
 
-class ManualScreen extends StatelessWidget {
+class FeederManual extends StatelessWidget {
   final String screenData;
 
-  ManualScreen({required this.screenData});
+  FeederManual({required this.screenData});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

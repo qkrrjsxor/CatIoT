@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/mainpage.dart';
 
-class HealthScreen extends StatelessWidget {
-  HealthScreen();
+class Health extends StatelessWidget {
+  Health();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

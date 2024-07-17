@@ -2,7 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class LoginCheck {
-  // final String baseUrl = 'http://localhost:8080/api/user';
+  final String baseUrl = 'http://localhost:8080/api/user';
+  var loginAnswer = false;
 
   Future<void> login(String username, String password) async {
     // final response = await http.post(Uri.parse('$baseUrl/login'),
@@ -17,6 +18,7 @@ class LoginCheck {
     final abc = '123';
     if (abc == '123') {
       print('로그인 성공');
+      loginAnswer = true;
     } else {
       print('로그인 실패');
     }

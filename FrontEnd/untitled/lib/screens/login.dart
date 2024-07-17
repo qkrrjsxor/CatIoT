@@ -4,7 +4,12 @@ import 'package:untitled/screens/mainpage.dart';
 import 'package:untitled/screens/signup.dart';
 import 'package:untitled/screens/logincheck.dart';
 
-class LoginScreen extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  State<Login> createState() => LoginStateScreen();
+}
+
+class LoginStateScreen extends State<Login> {
   final LoginCheck loginCheck = LoginCheck();
 
   TextEditingController userController = TextEditingController();
@@ -96,13 +101,17 @@ class LoginScreen extends StatelessWidget {
                         userController.text,
                         passwordController.text,
                       );
-                      print(userController.text);
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MainScreen(),
-                          ));
+                      // if (loginAnswer == true) {
+                      //   print(userController.text);
+                      //   Navigator.pop(context);
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => MainScreen(),
+                      //       ));
+                      // } else {
+                      //   print('로그인 정보에 문제가 있습니다');
+                      // }
                     },
                     child: Text('로그인', style: TextStyle(color: Colors.white)),
                   ),
@@ -127,7 +136,7 @@ class LoginScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SignupScreen(),
+                                builder: (context) => Signup(),
                               ));
                         },
                         child: Text('회원가입',
