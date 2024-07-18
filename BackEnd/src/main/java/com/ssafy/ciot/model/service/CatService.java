@@ -1,5 +1,8 @@
 package com.ssafy.ciot.model.service;
 
-public class CatService {
+import org.springframework.stereotype.Service;
 
+@Service
+public class CatService {
+	
 }
