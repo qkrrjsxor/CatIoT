@@ -72,6 +72,7 @@ class LoginStateScreen extends State<Login> {
                   const SizedBox(height: 8.0), // 여백
                   TextFormField(
                       controller: passwordController,
+                      obscureText:true,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),

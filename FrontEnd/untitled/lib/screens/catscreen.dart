@@ -23,6 +23,8 @@ class _MyCatState extends State<CatScreen> {
         'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'));
 
     _initializeVideoPlayerFuture = _controller.initialize();
+
+    _controller.play();
   }
 
   @override
@@ -36,6 +38,7 @@ class _MyCatState extends State<CatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 70,
         title: Text('CatIoT',
             style: TextStyle(
@@ -72,20 +75,20 @@ class _MyCatState extends State<CatScreen> {
         },
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-            } else {
-              _controller.play();
-            }
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     setState(() {
+      //       if (_controller.value.isPlaying) {
+      //         _controller.pause();
+      //       } else {
+      //         _controller.play();
+      //       }
+      //     });
+      //   },
+      //   child: Icon(
+      //     _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+      //   ),
+      // ),
 
       // Center(
       //   child: Column(
@@ -135,7 +138,7 @@ class _MyCatState extends State<CatScreen> {
               Navigator.pushNamed(context, '/health');
               break;
             case 1:
-              Navigator.pushNamed(context, '/catview');
+              Navigator.pushNamed(context, '/mainpage');
             case 2:
               Navigator.pushNamed(context, '/catview');
             // default:
@@ -145,11 +148,13 @@ class _MyCatState extends State<CatScreen> {
         },
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.medical_services), label: '건강 체크'),
-          BottomNavigationBarItem(icon: Icon(Icons.videocam), label: '고양이 보기'),
-          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 정보?'),
+              icon: Icon(Icons.medical_services), label: '고양이 건강 체크'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '메인 페이지'),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 보러가기'),
         ],
       ),
+
+
     );
   }
 }

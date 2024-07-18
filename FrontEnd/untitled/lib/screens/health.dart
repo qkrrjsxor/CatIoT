@@ -7,6 +7,7 @@ class Health extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 70,
         title: Text('CatIoT',
             style: TextStyle(
@@ -74,20 +75,20 @@ class Health extends StatelessWidget {
                 ],
               ),
             ),
-            TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.pink),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MainScreen(),
-                      ));
-                },
-                child: Text(
-                  '메인으로 돌아가기',
-                  style: TextStyle(color: Colors.white),
-                ))
+            // TextButton(
+            //     style: TextButton.styleFrom(backgroundColor: Colors.pink),
+            //     onPressed: () {
+            //       Navigator.of(context).pop();
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //             builder: (context) => MainScreen(),
+            //           ));
+            //     },
+            //     child: Text(
+            //       '메인으로 돌아가기',
+            //       style: TextStyle(color: Colors.white),
+            //     ))
           ],
         ),
       ),
@@ -98,19 +99,19 @@ class Health extends StatelessWidget {
               Navigator.pushNamed(context, '/health');
               break;
             case 1:
-              Navigator.pushNamed(context, '/catview');
+              Navigator.pushNamed(context, '/mainpage');
             case 2:
               Navigator.pushNamed(context, '/catview');
-            // default:
-            //   Navigator.pushNamed(context, '/health');
-            // ***디폴트 경로 설정: 필요할 경우 추가하기***
+          // default:
+          //   Navigator.pushNamed(context, '/health');
+          // ***디폴트 경로 설정: 필요할 경우 추가하기***
           }
         },
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.medical_services), label: '건강 체크'),
-          BottomNavigationBarItem(icon: Icon(Icons.videocam), label: '고양이 보기'),
-          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 정보?'),
+              icon: Icon(Icons.medical_services), label: '고양이 건강 체크'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '메인 페이지'),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 보러가기'),
         ],
       ),
     );

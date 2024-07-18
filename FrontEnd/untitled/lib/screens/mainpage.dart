@@ -230,19 +230,19 @@ class MainScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/health');
               break;
             case 1:
-              Navigator.pushNamed(context, '/catview');
+              Navigator.pushNamed(context, '/mainpage');
             case 2:
               Navigator.pushNamed(context, '/catview');
-            // default:
-            //   Navigator.pushNamed(context, '/health');
-            // ***디폴트 경로 설정: 필요할 경우 추가하기***
+          // default:
+          //   Navigator.pushNamed(context, '/health');
+          // ***디폴트 경로 설정: 필요할 경우 추가하기***
           }
         },
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.medical_services), label: '건강 체크'),
-          BottomNavigationBarItem(icon: Icon(Icons.videocam), label: '고양이 보기'),
-          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 정보?'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '메인 페이지'),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 보러가기'),
         ],
       ),
     );

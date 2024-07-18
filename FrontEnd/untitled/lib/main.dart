@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:untitled/screens/login.dart';
 import 'package:untitled/screens/catscreen.dart';
 import 'package:untitled/screens/health.dart';
+import 'package:untitled/screens/mainpage.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +23,9 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/health': (context) => Health(),
-        '/catview': (context) => CatScreen()
+        '/catview': (context) => CatScreen(),
+        '/mainpage': (context) => MainScreen()
+
       },
       home: Login(),
     );
