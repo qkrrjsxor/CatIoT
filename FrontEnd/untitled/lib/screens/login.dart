@@ -102,6 +102,15 @@ class LoginStateScreen extends State<Login> {
                         userController.text,
                         passwordController.text,
                       );
+
+                      print(userController.text);
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MainScreen(),
+                          ));
+
                       // if (loginAnswer == true) {
                       //   print(userController.text);
                       //   Navigator.pop(context);

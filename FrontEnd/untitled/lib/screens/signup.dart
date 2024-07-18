@@ -331,7 +331,6 @@ class SignupStateScreen extends State<Signup> {
                         await signupCheck.signup(
                           userController.text,
                           passwordController.text,
-                          passwordCheckController.text,
                           catNameController.text,
                           catGenderController.text,
                           catAgeController.text,
