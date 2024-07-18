@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.ciot.model.dto.Cat;
+import com.ssafy.ciot.model.dto.SignupForm;
 import com.ssafy.ciot.model.dto.User;
 import com.ssafy.ciot.model.service.UserService;
 
@@ -26,7 +27,10 @@ public class UserController {
 	
 	// 회원가입
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@RequestBody User user, @RequestBody Cat cat) {
+	public ResponseEntity<?> signup(@RequestBody SignupForm signupForm) {
+		User user = signupForm.getUser();
+        Cat cat = signupForm.getCat();
+        
         if (userService.findByUserId(user.getUserId()) != null) {
             return ResponseEntity.badRequest().body("UserId already exists.");
         }
