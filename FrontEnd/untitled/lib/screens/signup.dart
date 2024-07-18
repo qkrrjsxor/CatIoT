@@ -24,6 +24,10 @@ class SignupStateScreen extends State<Signup> {
   bool catGenderConfirm = false;
   bool catAgeConfirm = false;
 
+  final List<String> genderOption = ['male', 'female'];
+
+  String? selectedValue;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,7 +189,7 @@ class SignupStateScreen extends State<Signup> {
                   const SizedBox(height: 8.0),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('고양이 성별 (F 또는 M으로 입력해주세요)',
+                    child: Text('고양이 성별 (male 또는 female로 선택)',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 15,
@@ -193,8 +197,8 @@ class SignupStateScreen extends State<Signup> {
                         )),
                   ),
                   const SizedBox(height: 8.0), // 여백
-                  TextFormField(
-                    controller: catGenderController,
+                  DropdownButtonFormField<String>(
+                    // controller: catGenderController,
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 6.0, horizontal: 12.0),
@@ -208,11 +212,44 @@ class SignupStateScreen extends State<Signup> {
                             borderSide: BorderSide(
                               color: Color.fromARGB(223, 197, 197, 197),
                             ))),
+                    items: genderOption.map((String catoption) {
+                      return DropdownMenuItem<String>(
+                        value:catoption,
+                        child:Text(catoption),
+                      );
+                    }).toList(),
+                    onChanged:(String? abc) {
+                      setState(() {
+                        selectedValue = abc;
+                        // if (abc == 'male'){catGenderController.text = 'male';} else{catGenderController.text == 'female';};
+
+                        catGenderController.text = abc == 'Option 1'? 'Value for Option 1':'~~';
+                                                    abc == 'Option 2'? 'Value for Option 2':'female';
+
+                      });
+                    },
+                    value:selectedValue,
                   ),
+                  // TextFormField(
+                  //   controller: catGenderController,
+                  //   decoration: InputDecoration(
+                  //       contentPadding: EdgeInsets.symmetric(
+                  //           vertical: 6.0, horizontal: 12.0),
+                  //       enabledBorder: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           borderSide: BorderSide(
+                  //               color: Color.fromARGB(223, 197, 197, 197),
+                  //               width: 1.0)),
+                  //       focusedBorder: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           borderSide: BorderSide(
+                  //             color: Color.fromARGB(223, 197, 197, 197),
+                  //           ))),
+                  // ),
                   Visibility(
                     visible: catGenderConfirm,
                     child: Text(
-                      'F 또는 M으로 입력해주세요',
+                      'male 또는 female로 선택해야 합니다',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
@@ -302,13 +339,15 @@ class SignupStateScreen extends State<Signup> {
                           catNameConfirm = false;
                         });
                       }
-                      if (catGenderController.text != 'F' &&
-                          catGenderController.text != 'M') {
+                      if (catGenderController.text != 'male' &&
+                          catGenderController.text != 'female') {
                         setState(() {
+
                           catGenderConfirm = true;
                         });
                       } else {
                         setState(() {
+                          print(catGenderController.text);
                           catGenderConfirm = false;
                         });
                       }
