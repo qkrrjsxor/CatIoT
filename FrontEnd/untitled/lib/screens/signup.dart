@@ -28,6 +28,11 @@ class SignupStateScreen extends State<Signup> {
 
   String? selectedGender;
 
+  // 정규식
+  final RegExp userRegExp = RegExp(r'^[a-zA-Z0-9]{4,}$');
+  final RegExp passwordRegExp = RegExp(
+      r'^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +85,7 @@ class SignupStateScreen extends State<Signup> {
                   Visibility(
                     visible: userConfirm,
                     child: Text(
-                      '아이디는 4글자 이상이어야 합니다',
+                      '아이디는 4글자 이상으로 영어와 숫자만 가능합니다',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
@@ -114,7 +119,7 @@ class SignupStateScreen extends State<Signup> {
                   Visibility(
                     visible: passwordConfirm,
                     child: Text(
-                      '영문 대소문자, 숫자, 특수문자를 포함하여야 합니다',
+                      '6글자 이상으로 영문, 숫자, 특수문자를 포함하여야 합니다',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
@@ -286,64 +291,14 @@ class SignupStateScreen extends State<Signup> {
                       ),
                     ),
                     onPressed: () async {
-                      if (userController.text.length < 6 ||
-                          userController.text.length > 12) {
-                        setState(() {
-                          userConfirm = true;
-                        });
-                      } else {
-                        setState(() {
-                          userConfirm = false;
-                        });
-                      }
-                      if (passwordController.text.length < 6 ||
-                          passwordController.text.length > 12) {
-                        setState(() {
-                          passwordConfirm = true;
-                        });
-                      } else {
-                        setState(() {
-                          passwordConfirm = false;
-                        });
-                      }
-                      if (passwordCheckController.text !=
-                          passwordController.text) {
-                        setState(() {
-                          passwordCheckConfirm = true;
-                        });
-                      } else {
-                        setState(() {
-                          passwordCheckConfirm = false;
-                        });
-                      }
-                      if (catNameController.text.length > 6) {
-                        setState(() {
-                          catNameConfirm = true;
-                        });
-                      } else {
-                        setState(() {
-                          catNameConfirm = false;
-                        });
-                      }
-                      if (catGenderController.text != 'male' &&
-                          catGenderController.text != 'female') {
-                        setState(() {
-                          catGenderConfirm = true;
-                        });
-                      } else {
-                        setState(() {
-                          catGenderConfirm = false;
-                        });
-                      }
-                      if (int.tryParse(catAgeController.text) == null) {
-                        setState(() {
-                          catAgeConfirm = true;
-                        });
-                      } else {
-                        setState(() {
-                          catAgeConfirm = false;
-                        });
-                      }
+                      setState(() {
+                        userConfirm = !userRegExp.hasMatch(userController.text);
+                        passwordConfirm = !passwordRegExp.hasMatch(passwordController.text);
+                        passwordCheckConfirm = passwordController.text != passwordCheckController.text;
+                        catNameConfirm = catNameController.text.length > 6;
+                        catGenderConfirm = catGenderController.text != 'male' && catGenderController.text != 'female';
+                        catAgeConfirm = int.tryParse(catAgeController.text) == null;
+                      });
 
                       if (userConfirm == false &&
                           passwordConfirm == false &&
