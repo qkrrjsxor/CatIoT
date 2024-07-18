@@ -307,18 +307,14 @@ class SignupStateScreen extends State<Signup> {
                           catGenderConfirm == false &&
                           catAgeConfirm == false) {
                         await signupCheck.signup(
+                          context,
                           userController.text,
                           passwordController.text,
                           catNameController.text,
                           catGenderController.text,
                           catAgeController.text,
                         );
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MainScreen(),
-                            ));
+
                       }
                     },
                     child:
