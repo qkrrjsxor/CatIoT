@@ -26,7 +26,7 @@ class SignupStateScreen extends State<Signup> {
 
   final List<String> genderOption = ['male', 'female'];
 
-  String? selectedValue;
+  String? selectedGender;
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +189,7 @@ class SignupStateScreen extends State<Signup> {
                   const SizedBox(height: 8.0),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('고양이 성별 (male 또는 female로 선택)',
+                    child: Text('고양이 성별 (택1)',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 15,
@@ -212,40 +212,26 @@ class SignupStateScreen extends State<Signup> {
                             borderSide: BorderSide(
                               color: Color.fromARGB(223, 197, 197, 197),
                             ))),
-                    items: genderOption.map((String catoption) {
+                    items: genderOption.map((String option) {
                       return DropdownMenuItem<String>(
-                        value:catoption,
-                        child:Text(catoption),
+                        value:option,
+                        child:Text(option),
                       );
                     }).toList(),
-                    onChanged:(String? abc) {
+                    onChanged:(String? genderAnswer) {
                       setState(() {
-                        selectedValue = abc;
-                        // if (abc == 'male'){catGenderController.text = 'male';} else{catGenderController.text == 'female';};
-
-                        catGenderController.text = abc == 'Option 1'? 'Value for Option 1':'~~';
-                                                    abc == 'Option 2'? 'Value for Option 2':'female';
+                        selectedGender = genderAnswer;
+                        if (selectedGender == 'male') {
+                          catGenderController.text = 'male';
+                        } else if (selectedGender == 'female') {
+                          catGenderController.text = 'female';
+                        }
 
                       });
                     },
-                    value:selectedValue,
+                    value:selectedGender,
                   ),
-                  // TextFormField(
-                  //   controller: catGenderController,
-                  //   decoration: InputDecoration(
-                  //       contentPadding: EdgeInsets.symmetric(
-                  //           vertical: 6.0, horizontal: 12.0),
-                  //       enabledBorder: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(15),
-                  //           borderSide: BorderSide(
-                  //               color: Color.fromARGB(223, 197, 197, 197),
-                  //               width: 1.0)),
-                  //       focusedBorder: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(15),
-                  //           borderSide: BorderSide(
-                  //             color: Color.fromARGB(223, 197, 197, 197),
-                  //           ))),
-                  // ),
+
                   Visibility(
                     visible: catGenderConfirm,
                     child: Text(
@@ -342,12 +328,10 @@ class SignupStateScreen extends State<Signup> {
                       if (catGenderController.text != 'male' &&
                           catGenderController.text != 'female') {
                         setState(() {
-
                           catGenderConfirm = true;
                         });
                       } else {
                         setState(() {
-                          print(catGenderController.text);
                           catGenderConfirm = false;
                         });
                       }
