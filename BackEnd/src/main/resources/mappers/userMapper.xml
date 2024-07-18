@@ -11,6 +11,12 @@
 		INSERT INTO user(user_id, password, user_name)
 		VALUES(#{userId}, #{password}, #{userName})
 	</insert>
+	
+	<!-- 고양이 등록 -->
+    <insert id="insertCat" parameterType="Cat">
+        INSERT INTO cat(user_id, cat_name, cat_age, cat_gender)
+        VALUES(#{userId}, #{catName}, #{catAge}, #{catGender})
+    </insert>
 
 	<!-- 로그인 -->
 	<select id="selectUser" parameterType="String" resultType="User">

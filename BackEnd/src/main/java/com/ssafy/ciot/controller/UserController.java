@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.ciot.model.dto.Cat;
 import com.ssafy.ciot.model.dto.User;
 import com.ssafy.ciot.model.service.UserService;
 
@@ -25,12 +26,12 @@ public class UserController {
 	
 	// 회원가입
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@RequestBody User user) {
+	public ResponseEntity<?> signup(@RequestBody User user, @RequestBody Cat cat) {
         if (userService.findByUserId(user.getUserId()) != null) {
             return ResponseEntity.badRequest().body("UserId already exists.");
         }
         System.out.println("회원가입 성공");
-        return ResponseEntity.ok(userService.signup(user));
+        return ResponseEntity.ok(userService.signup(user, cat));
     }
 	
 	// 로그인
