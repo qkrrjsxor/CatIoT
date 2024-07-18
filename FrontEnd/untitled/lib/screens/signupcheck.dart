@@ -8,7 +8,7 @@ class SignupCheck {
       String catname, String catgender, String catage) async {
     // final response = await http.post(Uri.parse('$baseUrl/signup'),
     //     headers: {'Content-Type': 'application/json'},
-    //     body: jsonEncode({'username': username, 'password': password}, 'catname':catname, 'catgender':catgender, 'catage':catage));
+    //     body: jsonEncode({'username': username, 'password': password, 'catname':catname, 'catgender':catgender, 'catage':catage}, );
 
     // if (response.statusCode == 200) {
     //   print('회원가입 성공:${response.body}');
