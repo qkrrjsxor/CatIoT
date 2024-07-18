@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/mainpage.dart';
 
-class TimePicker extends StatefulWidget {
-  const TimePicker({super.key});
+class FeederAuto extends StatefulWidget {
+  const FeederAuto({super.key});
 
   @override
-  State<TimePicker> createState() => AutoScreen();
+  State<FeederAuto> createState() => AutoScreen();
 }
 
-class AutoScreen extends State<TimePicker> {
+class AutoScreen extends State<FeederAuto> {
   // db에 저장 된 시간이 있으면 불러오자
   TimeOfDay firstTime = TimeOfDay.now(); // 현재 시간 기준으로 시간대를 생성하는 생성자
   TimeOfDay secondTime = TimeOfDay.now();

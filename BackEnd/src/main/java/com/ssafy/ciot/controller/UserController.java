@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.ciot.model.dto.Cat;
+import com.ssafy.ciot.model.dto.SignupForm;
 import com.ssafy.ciot.model.dto.User;
 import com.ssafy.ciot.model.service.UserService;
 
@@ -25,17 +27,22 @@ public class UserController {
 	
 	// 회원가입
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@RequestBody User user) {
+	public ResponseEntity<?> signup(@RequestBody SignupForm signupForm) {
+		User user = signupForm.getUser();
+        Cat cat = signupForm.getCat();
+        
         if (userService.findByUserId(user.getUserId()) != null) {
+        	System.out.println("이미 존재하는 아이디입니다.");
             return ResponseEntity.badRequest().body("UserId already exists.");
         }
         System.out.println("회원가입 성공");
-        return ResponseEntity.ok(userService.signup(user));
+        return ResponseEntity.ok(userService.signup(user, cat));
     }
 	
 	// 로그인
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user, HttpSession session){
+		System.out.println("로그인 컨트롤러 실행");
 		User loginUser = userService.login(user.getUserId());
 		
 		if (loginUser == null) {

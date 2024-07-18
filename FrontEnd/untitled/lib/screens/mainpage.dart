@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:untitled/screens/view.dart';
+import 'package:untitled/screens/catscreen.dart';
 import 'package:untitled/screens/health.dart';
 import 'package:untitled/screens/login.dart';
 import 'package:untitled/screens/feeder_manual.dart';
@@ -52,7 +52,7 @@ class MainScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
+                            builder: (context) => Login(),
                           ));
                     },
                     child: Text('로그아웃',
@@ -145,7 +145,7 @@ class MainScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TimePicker()));
+                                    builder: (context) => FeederAuto()));
                           },
                           child: Text('설정',
                               style: TextStyle(
@@ -193,7 +193,7 @@ class MainScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ManualScreen(
+                                  builder: (context) => FeederManual(
                                     screenData: '수동!',
                                   ),
                                 ));
