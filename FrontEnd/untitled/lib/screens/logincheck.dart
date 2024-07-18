@@ -6,6 +6,8 @@ import 'dart:convert';
 
 import 'package:untitled/screens/mainpage.dart';
 
+import 'login.dart';
+
 class LoginCheck {
   final String baseUrl = 'http://10.0.2.2:8080/api/user';
   // final String baseUrl = 'http://localhost:8080/api/user';
@@ -37,6 +39,23 @@ class LoginCheck {
           fontSize: 16.0,
         );
       }
+    } catch (e) {
+      print('연결 오류: $e');
+    }
+  }
+
+  Future<void> logout(BuildContext context) async {
+    print('logout 함수 실행');
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/logout'));
+
+      Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(),
+          )
+      );
     } catch (e) {
       print('연결 오류: $e');
     }
