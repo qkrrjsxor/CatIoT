@@ -61,12 +61,17 @@ public class UserController {
 	// 로그아웃
 	@GetMapping("/logout")
 	public ResponseEntity<String> logout(HttpSession session) {
-		if (session.getAttribute("loginUser") != null) {
-			session.invalidate();
-			return new ResponseEntity<String>("로그아웃 되었습니다.", HttpStatus.ACCEPTED);
-		} else {
-			return new ResponseEntity<String>("로그인한 유저가 없습니다.", HttpStatus.UNAUTHORIZED);
-		}
+		Object loginUser = session.getAttribute("loginUser");
+		System.out.println("로그아웃 요청 - 로그인 유저: " + loginUser);
+		
+	    if (loginUser != null) {
+	        System.out.println(loginUser + " 로그아웃 되었습니다.");
+	        session.invalidate();
+	        return new ResponseEntity<String>("로그아웃 되었습니다.", HttpStatus.ACCEPTED);
+	    } else {
+	        System.out.println("로그인한 유저가 없습니다.");
+	        return new ResponseEntity<String>("로그인한 유저가 없습니다.", HttpStatus.UNAUTHORIZED);
+	    }
 
 	}
 }
