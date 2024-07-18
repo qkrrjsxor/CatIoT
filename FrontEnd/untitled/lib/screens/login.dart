@@ -99,17 +99,13 @@ class LoginStateScreen extends State<Login> {
                       print('로그인 버튼 클릭');
                       // 로그인 했을 때 조건 (검증, db 저장, 토큰)
                       await loginCheck.login(
+                        context,
                         userController.text,
                         passwordController.text,
                       );
 
                       print(userController.text);
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MainScreen(),
-                          ));
+
 
                       // if (loginAnswer == true) {
                       //   print(userController.text);
