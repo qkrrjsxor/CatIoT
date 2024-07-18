@@ -53,7 +53,7 @@ class SignupStateScreen extends State<Signup> {
                   const SizedBox(height: 20.0),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('아이디 (6자리 이상 12자리 이하)',
+                    child: Text('아이디 (4글자 이상)',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 15,
@@ -80,14 +80,14 @@ class SignupStateScreen extends State<Signup> {
                   Visibility(
                     visible: userConfirm,
                     child: Text(
-                      '아이디는 6자리 이상 12자리 이하여야 합니다',
+                      '아이디는 4글자 이상이어야 합니다',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
                   const SizedBox(height: 8.0),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('비밀번호 (6자리 이상 12자리 이하)',
+                    child: Text('비밀번호 (영문 대소문자, 숫자, 특수문자 포함)',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 15,
@@ -114,7 +114,7 @@ class SignupStateScreen extends State<Signup> {
                   Visibility(
                     visible: passwordConfirm,
                     child: Text(
-                      '비밀번호는 6자리 이상 12자리 이하여야 합니다',
+                      '영문 대소문자, 숫자, 특수문자를 포함하여야 합니다',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
@@ -148,7 +148,7 @@ class SignupStateScreen extends State<Signup> {
                   Visibility(
                     visible: passwordCheckConfirm,
                     child: Text(
-                      '비밀번호와 비밀번호 확인이 일치하지 않습니다',
+                      '비밀번호가 일치하지 않습니다',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
