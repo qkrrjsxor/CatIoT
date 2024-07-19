@@ -1,7 +1,7 @@
 package com.ssafy.ciot.model.dto;
 
 public class Cat {
-	private String catId;
+	private int catId;
 	private String userId;
 	private String catName;
 	private int catAge;
@@ -9,11 +9,11 @@ public class Cat {
 		
 	public Cat() {}
 
-	public String getCatId() {
+	public int getCatId() {
 		return catId;
 	}
 
-	public void setCatId(String catId) {
+	public void setCatId(int catId) {
 		this.catId = catId;
 	}
 

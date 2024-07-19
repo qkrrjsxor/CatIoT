@@ -10,6 +10,9 @@ import 'package:untitled/screens/mainpage.dart';
 import '../service/cookie_manager.dart';
 import 'login.dart';
 
+// 고양이 정보를 담을 전역변수
+List<dynamic>? CatInfo;
+
 class LoginCheck {
   final String baseUrl = 'http://10.0.2.2:8080/api/user';
   final CookieManager cookieManager = CookieManager();
@@ -25,6 +28,10 @@ class LoginCheck {
 
       if (response.statusCode == 200) {
         print('로그인 성공:${response.body}');
+        CatInfo = jsonDecode(response.body);
+        print(CatInfo);
+        // var cat = CatInfo![0];
+        // print('고양이 이름: ${cat['catName']}');
 
         // Save cookies from the response
         final uri = Uri.parse(baseUrl);

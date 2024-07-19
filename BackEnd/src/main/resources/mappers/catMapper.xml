@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.ciot.model.dao.CatDao">
+
+	<!-- 고양이 선택 -->
+	<select id="selectCatByCatId" parameterType="int" resultType="Cat">
+		SELECT * FROM Cat
+		WHERE cat_id = #{catId}
+	</select>
+	
+	<!-- 고양이 전부 선택 -->
+	<select id="selectCatAll" parameterType="String" resultType="Cat">
+		SELECT * FROM Cat
+		WHERE user_id = #{userId}
+	</select>
+
+</mapper>
