@@ -5,8 +5,10 @@ import 'package:untitled/screens/health.dart';
 import 'package:untitled/screens/login.dart';
 import 'package:untitled/screens/feeder_manual.dart';
 import 'package:untitled/screens/feeder_auto.dart';
+import 'package:untitled/screens/logincheck.dart';
 
 class MainScreen extends StatelessWidget {
+  final LoginCheck loginCheck = LoginCheck();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,14 +48,9 @@ class MainScreen extends StatelessWidget {
                   ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.pink),
-                    onPressed: () {
-                      //
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Login(),
-                          ));
+                    onPressed:() async {
+                      await loginCheck.logout(context
+                      );
                     },
                     child: Text('로그아웃',
                         style: TextStyle(

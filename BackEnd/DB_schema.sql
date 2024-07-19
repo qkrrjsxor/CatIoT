@@ -23,8 +23,16 @@ CREATE TABLE IF NOT EXISTS cat(
 CREATE TABLE IF NOT EXISTS meal_schedule(
 	schedule_id INT AUTO_INCREMENT PRIMARY KEY,
     cat_id INT NOT NULL,
-    meal_time TIME NOT NULL,
-    meal_scheduled_amount INT NOT NULL,
+    meal_time1 TIME NOT NULL,
+    meal_time2 TIME NOT NULL,
+    meal_time3 TIME NOT NULL,
+    meal_time4 TIME NOT NULL,
+    meal_time5 TIME NOT NULL,
+    meal_scheduled_amount1 INT NOT NULL,
+    meal_scheduled_amount2 INT NOT NULL,
+    meal_scheduled_amount3 INT NOT NULL,
+    meal_scheduled_amount4 INT NOT NULL,
+    meal_scheduled_amount5 INT NOT NULL,
     FOREIGN KEY (cat_id) REFERENCES cat(cat_id)
 );
 
