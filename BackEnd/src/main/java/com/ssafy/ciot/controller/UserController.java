@@ -13,6 +13,7 @@ import com.ssafy.ciot.model.dto.SignupForm;
 import com.ssafy.ciot.model.dto.User;
 import com.ssafy.ciot.model.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -41,8 +42,10 @@ public class UserController {
 	
 	// 로그인
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody User user, HttpSession session){
+	public ResponseEntity<?> login(@RequestBody User user, HttpSession session, HttpServletRequest request){
 		System.out.println("로그인 컨트롤러 실행");
+		System.out.println("세션 ID: " + request.getSession().getId());
+		
 		User loginUser = userService.login(user.getUserId());
 		
 		if (loginUser == null) {
@@ -60,9 +63,10 @@ public class UserController {
 	
 	// 로그아웃
 	@GetMapping("/logout")
-	public ResponseEntity<String> logout(HttpSession session) {
+	public ResponseEntity<String> logout(HttpSession session, HttpServletRequest request) {
 		Object loginUser = session.getAttribute("loginUser");
 		System.out.println("로그아웃 요청 - 로그인 유저: " + loginUser);
+		System.out.println("세션 ID: " + request.getSession().getId());
 		
 	    if (loginUser != null) {
 	        System.out.println(loginUser + " 로그아웃 되었습니다.");
