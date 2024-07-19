@@ -13,10 +13,34 @@ class AutoScreen extends State<FeederAuto> {
   TimeOfDay firstTime = TimeOfDay.now(); // 현재 시간 기준으로 시간대를 생성하는 생성자
   TimeOfDay secondTime = TimeOfDay.now();
   TimeOfDay thirdTime = TimeOfDay.now();
+  TimeOfDay fourthTime = TimeOfDay.now();
+  TimeOfDay fifthTime = TimeOfDay.now();
+
 
   final TextEditingController _firstFood = TextEditingController();
   final TextEditingController _secondFood = TextEditingController();
   final TextEditingController _thirdFood = TextEditingController();
+  final TextEditingController _fourthFood = TextEditingController();
+  final TextEditingController _fifthFood = TextEditingController();
+
+
+  int _counter = 0;
+
+  void _incrementCounter() {
+    if (_counter >= 0 && _counter < 5){
+      setState(() {
+        _counter++;
+      });
+    }
+
+  }
+  void _decrementCounter() {
+    if (_counter > 0 && _counter < 6) {
+      setState(() {
+        _counter--;
+      });
+    }
+  }
   // AutoScreen();
   @override
   Widget build(BuildContext context) {
@@ -39,8 +63,8 @@ class AutoScreen extends State<FeederAuto> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              // margin: EdgeInsets.all(5),
               width: 300,
               child: Column(
                 children: [
@@ -54,208 +78,368 @@ class AutoScreen extends State<FeederAuto> {
                     '하루 최대 5회까지 설정 가능합니다',
                     style: TextStyle(color: Colors.black38),
                   ),
+                  Text(
+                    '하루 $_counter회',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                 ],
               ),
             ),
             Container(
-              margin: EdgeInsets.all(5),
-              width: 300,
-              child: Column(
-                children: [
-                  Text('하루 2회',
+                width:300,
+                child:Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:[
+                      SizedBox(width:15),
+                      TextButton(
+                        onPressed: _incrementCounter,
+                        child: const Icon(Icons.add), // This trailing comma makes auto-formatting nicer for build methods.
+                      ),
+                      TextButton(
+                        onPressed: _decrementCounter,
+                        child: const Icon(Icons.remove), // This trailing comma makes auto-formatting nicer for build methods.
+                      ),
+                    ]
+                )
+              // child: Column(
+              //   children: [
+              //     Text('하루 2회',
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 25,
+              //         )),
+              //   ],
+              // ),
+            ),
+            AbsorbPointer(
+              absorbing: _counter < 1,
+              child:Container(
+                height:80,
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.all(10),
+                width: 350,
+                decoration: BoxDecoration(
+                    color: _counter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+                    border: Border.all(color: _counter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+                child: Row(
+                  children: [
+                    Text(
+                      '${firstTime.hour}:${firstTime.minute}',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    SizedBox(width: 5),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: _counter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                        onPressed: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            // showTimePicker - context와 초기 시간 값 전달해야 함
+                            context: context,
+                            initialTime: TimeOfDay(hour: 12, minute: 00),
+                            // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
+                          );
+                          if (selectedTime != null) {
+                            setState(() {
+                              firstTime = selectedTime;
+                            });
+                          }
+                        },
+                        child:
+                        Text('시간선택', style: TextStyle(color: Colors.white))),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                          controller: _firstFood,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )))),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      'g',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 25,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+AbsorbPointer(
+  absorbing: _counter<2,
+  child:Container(
+    height:80,
+    padding: EdgeInsets.all(20),
+    margin: EdgeInsets.all(10),
+    width: 350,
+    decoration: BoxDecoration(
+      color: _counter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+        border: Border.all(color: _counter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+    child: Row(
+      children: [
+        Text(
+          '${secondTime.hour}:${secondTime.minute}',
+          style: TextStyle(fontSize: 30),
+        ),
+        SizedBox(width: 5),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: _counter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+            onPressed: () async {
+              final TimeOfDay? selectedTime = await showTimePicker(
+                // showTimePicker - context와 초기 시간 값 전달해야 함
+                context: context,
+                initialTime: TimeOfDay(hour: 12, minute: 00),
+                // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
+              );
+              if (selectedTime != null) {
+                setState(() {
+                  secondTime = selectedTime;
+                });
+              }
+            },
+            child:
+            Text('시간선택', style: TextStyle(color: Colors.white))),
+        SizedBox(width: 10),
+        Expanded(
+          child: TextFormField(
+              controller: _secondFood,
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(223, 197, 197, 197),
                       )),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(10),
-              width: 350,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color.fromARGB(255, 228, 6, 95))),
-              child: Row(
-                children: [
-                  Text(
-                    '${firstTime.hour}:${firstTime.minute}',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  SizedBox(width: 5),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink),
-                      onPressed: () async {
-                        final TimeOfDay? selectedTime = await showTimePicker(
-                          // showTimePicker - context와 초기 시간 값 전달해야 함
-                          context: context,
-                          initialTime: TimeOfDay(hour: 12, minute: 00),
-                          // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
-                        );
-                        if (selectedTime != null) {
-                          setState(() {
-                            firstTime = selectedTime;
-                          });
-                        }
-                      },
-                      child:
-                          Text('시간선택', style: TextStyle(color: Colors.white))),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextFormField(
-                        controller: _firstFood,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(223, 197, 197, 197),
-                                )),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(223, 197, 197, 197),
-                                )))),
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'g',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(223, 197, 197, 197),
+                      )))),
+        ),
+        SizedBox(width: 10),
+        Text(
+          'g',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+            AbsorbPointer(
+              absorbing: _counter<3,
+              child:Container(
+                height:80,
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.all(10),
+                width: 350,
+                decoration: BoxDecoration(
+                    color: _counter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+                    border: Border.all(color: _counter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+                child: Row(
+                  children: [
+                    Text(
+                      '${thirdTime.hour}:${thirdTime.minute}',
+                      style: TextStyle(fontSize: 30),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(10),
-              width: 350,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color.fromARGB(255, 228, 6, 95))),
-              child: Row(
-                children: [
-                  Text(
-                    '${secondTime.hour}:${secondTime.minute}',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  SizedBox(width: 5),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink),
-                      onPressed: () async {
-                        final TimeOfDay? selectedTime = await showTimePicker(
-                          // showTimePicker - context와 초기 시간 값 전달해야 함
-                          context: context,
-                          initialTime: TimeOfDay(hour: 12, minute: 00),
-                          // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
-                        );
-                        if (selectedTime != null) {
-                          setState(() {
-                            secondTime = selectedTime;
-                          });
-                        }
-                      },
-                      child:
-                          Text('시간선택', style: TextStyle(color: Colors.white))),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextFormField(
-                        controller: _secondFood,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(223, 197, 197, 197),
-                                )),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(223, 197, 197, 197),
-                                )))),
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'g',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                    SizedBox(width: 5),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: _counter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                        onPressed: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            // showTimePicker - context와 초기 시간 값 전달해야 함
+                            context: context,
+                            initialTime: TimeOfDay(hour: 12, minute: 00),
+                            // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
+                          );
+                          if (selectedTime != null) {
+                            setState(() {
+                              thirdTime = selectedTime;
+                            });
+                          }
+                        },
+                        child:
+                        Text('시간선택', style: TextStyle(color: Colors.white))),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                          controller: _thirdFood,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )))),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(10),
-              width: 350,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color.fromARGB(255, 228, 6, 95))),
-              child: Row(
-                children: [
-                  Text(
-                    '${thirdTime.hour}:${thirdTime.minute}',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  SizedBox(width: 5),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink),
-                      onPressed: () async {
-                        final TimeOfDay? selectedTime = await showTimePicker(
-                          // showTimePicker - context와 초기 시간 값 전달해야 함
-                          context: context,
-                          initialTime: TimeOfDay(hour: 12, minute: 00),
-                          // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
-                        );
-                        if (selectedTime != null) {
-                          setState(() {
-                            thirdTime = selectedTime;
-                          });
-                        }
-                      },
-                      child:
-                          Text('시간선택', style: TextStyle(color: Colors.white))),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextFormField(
-                        controller: _thirdFood,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(223, 197, 197, 197),
-                                )),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(223, 197, 197, 197),
-                                )))),
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'g',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                    SizedBox(width: 10),
+                    Text(
+                      'g',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(30),
-              margin: EdgeInsets.all(10),
-              width: 300,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color.fromARGB(255, 228, 6, 95))),
-              child: Column(
-                children: [
-                  Text('타이머4'),
-                ],
+AbsorbPointer(
+  absorbing:_counter<4,
+  child:Container(
+    height:80,
+    padding: EdgeInsets.all(20),
+    margin: EdgeInsets.all(10),
+    width: 350,
+    decoration: BoxDecoration(
+        color: _counter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+        border: Border.all(color: _counter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+    child: Row(
+      children: [
+        Text(
+          '${fourthTime.hour}:${fourthTime.minute}',
+          style: TextStyle(fontSize: 30),
+        ),
+        SizedBox(width: 5),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: _counter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+            onPressed: () async {
+              final TimeOfDay? selectedTime = await showTimePicker(
+                // showTimePicker - context와 초기 시간 값 전달해야 함
+                context: context,
+                initialTime: TimeOfDay(hour: 12, minute: 00),
+                // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
+              );
+              if (selectedTime != null) {
+                setState(() {
+                  fourthTime = selectedTime;
+                });
+              }
+            },
+            child:
+            Text('시간선택', style: TextStyle(color: Colors.white))),
+        SizedBox(width: 10),
+        Expanded(
+          child: TextFormField(
+              controller: _fourthFood,
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(223, 197, 197, 197),
+                      )),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(223, 197, 197, 197),
+                      )))),
+        ),
+        SizedBox(width: 10),
+        Text(
+          'g',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+            AbsorbPointer(
+              absorbing: _counter<5,
+              child:Container(
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.all(10),
+                width: 350,
+                height:80,
+                decoration: BoxDecoration(
+                    color: _counter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+                    border: Border.all(color: _counter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+                child: Row(
+                  children: [
+                    Text(
+                      '${fifthTime.hour}:${fifthTime.minute}',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    SizedBox(width: 5),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: _counter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                        onPressed: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            // showTimePicker - context와 초기 시간 값 전달해야 함
+                            context: context,
+                            initialTime: TimeOfDay(hour: 12, minute: 00),
+                            // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
+                          );
+                          if (selectedTime != null) {
+                            setState(() {
+                              fifthTime = selectedTime;
+                            });
+                          }
+                        },
+                        child:
+                        Text('시간선택', style: TextStyle(color: Colors.white))),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                          controller: _fifthFood,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )))),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      'g',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
+
+
+            // Container(
+            //   padding: EdgeInsets.all(30),
+            //   margin: EdgeInsets.all(10),
+            //   width: 300,
+            //   decoration: BoxDecoration(
+            //       border: Border.all(color: Color.fromARGB(255, 228, 6, 95))),
+            //   child: Column(
+            //     children: [
+            //       Text('타이머4'),
+            //     ],
+            //   ),
+            // ),
             TextButton(
               style: TextButton.styleFrom(backgroundColor: Colors.pink),
               onPressed: () {
