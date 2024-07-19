@@ -18,7 +18,8 @@ class LoginCheck {
   final CookieManager cookieManager = CookieManager();
   var loginAnswer = false;
 
-  Future<bool> login(BuildContext context, String userId, String password) async {
+  Future<bool> login(
+      BuildContext context, String userId, String password) async {
     print('login 함수 실행');
     try {
       final response = await http.post(Uri.parse('$baseUrl/login'),
@@ -37,7 +38,10 @@ class LoginCheck {
         final uri = Uri.parse(baseUrl);
         final cookies = response.headers['set-cookie'];
         if (cookies != null) {
-          final parsedCookies = cookies.split(',').map((str) => Cookie.fromSetCookieValue(str)).toList();
+          final parsedCookies = cookies
+              .split(',')
+              .map((str) => Cookie.fromSetCookieValue(str))
+              .toList();
           await cookieManager.saveFromResponse(uri, parsedCookies);
         }
 
@@ -72,7 +76,8 @@ class LoginCheck {
       final uri = Uri.parse(baseUrl);
       final cookies = await cookieManager.loadForRequest(uri);
       final headers = {
-        'Cookie': cookies.map((cookie) => '${cookie.name}=${cookie.value}').join('; ')
+        'Cookie':
+            cookies.map((cookie) => '${cookie.name}=${cookie.value}').join('; ')
       };
 
       final response = await http.get(

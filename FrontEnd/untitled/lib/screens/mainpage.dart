@@ -7,7 +7,7 @@ import 'package:untitled/screens/feeder_manual.dart';
 import 'package:untitled/screens/feeder_auto.dart';
 import 'package:untitled/screens/logincheck.dart';
 
-class MainScreen extends StatefulWidget{
+class MainScreen extends StatefulWidget {
   @override
   MainScreenState createState() => MainScreenState();
 }
@@ -45,26 +45,34 @@ class MainScreenState extends State<MainScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (CatInfo != null && CatInfo!.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButton<String>(
-                  value: selectedCatName,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.pink),
-                  dropdownColor: Colors.white,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedCatName = newValue!;
-                    });
-                  },
-                  items: CatInfo!.map<DropdownMenuItem<String>>((dynamic cat) {
-                    return DropdownMenuItem<String>(
-                      value: cat['catName'],
-                      child: Text(cat['catName']),
-                    );
-                  }).toList(),
-                ),
-              ),
+            Container(
+             child:Row(
+               mainAxisAlignment: MainAxisAlignment.start,
+               children:[
+                 if (CatInfo != null && CatInfo!.isNotEmpty)
+                   Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: DropdownButton<String>(
+                       value: selectedCatName,
+                       icon: Icon(Icons.arrow_drop_down, color: Colors.pink),
+                       dropdownColor: Colors.white,
+                       onChanged: (String? newValue) {
+                         setState(() {
+                           selectedCatName = newValue!;
+                         });
+                       },
+                       items: CatInfo!.map<DropdownMenuItem<String>>((dynamic cat) {
+                         return DropdownMenuItem<String>(
+                           value: cat['catName'],
+                           child: Text(cat['catName']),
+                         );
+                       }).toList(),
+                     ),
+                   ),
+               ]
+             )
+            ),
+
             Container(
               padding: EdgeInsets.all(10),
               margin: EdgeInsets.all(10),
@@ -79,15 +87,14 @@ class MainScreenState extends State<MainScreen> {
                   Text('${selectedCatName} 집사님, 환영합니다',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 22,
+                        fontSize: 18,
                       )),
                   SizedBox(width: 30),
                   ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.pink),
-                    onPressed:() async {
-                      await loginCheck.logout(context
-                      );
+                    onPressed: () async {
+                      await loginCheck.logout(context);
                     },
                     child: Text('로그아웃',
                         style: TextStyle(
@@ -227,9 +234,7 @@ class MainScreenState extends State<MainScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => FeederManual(
-                                    screenData: '수동!',
-                                  ),
+                                  builder: (context) => FeederManual(),
                                 ));
                           },
                           child: Text('설정',
@@ -267,9 +272,9 @@ class MainScreenState extends State<MainScreen> {
               Navigator.pushNamed(context, '/mainpage');
             case 2:
               Navigator.pushNamed(context, '/catview');
-          // default:
-          //   Navigator.pushNamed(context, '/health');
-          // ***디폴트 경로 설정: 필요할 경우 추가하기***
+            // default:
+            //   Navigator.pushNamed(context, '/health');
+            // ***디폴트 경로 설정: 필요할 경우 추가하기***
           }
         },
         items: [
