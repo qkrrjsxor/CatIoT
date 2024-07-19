@@ -13,5 +13,8 @@ public class MealService {
 		this.mealDao = mealDao;
 	}
 	
-	
+	// 수동 배급
+	public void manualFeed(int catId, int amount) {
+		
+	}
 }
