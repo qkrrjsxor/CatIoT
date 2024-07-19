@@ -48,7 +48,7 @@ class AutoCheck {
 
       final response = await http.post(Uri.parse('$baseUrl/manual_feeder'),
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'userId': loginName, 'meal': firstmeal}));
+          body: jsonEncode({'userId': firstmeal, 'meal': firstmeal}));
       print('자동 배급 테스트');
       print('~~~');
       print(thirdmeal);

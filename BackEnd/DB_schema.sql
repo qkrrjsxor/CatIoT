@@ -53,3 +53,5 @@ CREATE TABLE IF NOT EXISTS toilet(
     toilet_type ENUM('pee', 'poo'),
     FOREIGN KEY (cat_id) REFERENCES cat(cat_id)
 );
+
+SELECT * from cat;

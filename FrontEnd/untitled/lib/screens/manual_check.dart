@@ -16,7 +16,7 @@ class ManualCheck {
     try {
       final response = await http.post(Uri.parse('$baseUrl/manual_feeder'),
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'userId': loginName, 'meal': int.parse(manuals)}));
+          body: jsonEncode({'userId': manuals, 'meal': int.parse(manuals)}));
       print('수동 배급 테스트');
       if (response.statusCode == 200) {
         print('배급 성공:${response.body}');
