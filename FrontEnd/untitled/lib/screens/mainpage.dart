@@ -7,8 +7,24 @@ import 'package:untitled/screens/feeder_manual.dart';
 import 'package:untitled/screens/feeder_auto.dart';
 import 'package:untitled/screens/logincheck.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
+  @override
+  MainScreenState createState() => MainScreenState();
+}
+
+class MainScreenState extends State<MainScreen> {
   final LoginCheck loginCheck = LoginCheck();
+  String? selectedCatName; // 선택된 고양이 이름을 저장할 변수
+
+  @override
+  void initState() {
+    super.initState();
+    // 처음에 선택된 고양이 이름 설정
+    if (CatInfo != null && CatInfo!.isNotEmpty) {
+      selectedCatName = CatInfo![0]['catName'];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +45,26 @@ class MainScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (CatInfo != null && CatInfo!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButton<String>(
+                  value: selectedCatName,
+                  icon: Icon(Icons.arrow_drop_down, color: Colors.pink),
+                  dropdownColor: Colors.white,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedCatName = newValue!;
+                    });
+                  },
+                  items: CatInfo!.map<DropdownMenuItem<String>>((dynamic cat) {
+                    return DropdownMenuItem<String>(
+                      value: cat['catName'],
+                      child: Text(cat['catName']),
+                    );
+                  }).toList(),
+                ),
+              ),
             Container(
               padding: EdgeInsets.all(10),
               margin: EdgeInsets.all(10),
@@ -39,7 +75,8 @@ class MainScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('$loginName 집사님, 환영합니다',
+                  // 고양이 이름이 뜨도록 변경
+                  Text('${selectedCatName} 집사님, 환영합니다',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -48,9 +85,8 @@ class MainScreen extends StatelessWidget {
                   ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.pink),
-                    onPressed:() async {
-                      await loginCheck.logout(context
-                      );
+                    onPressed: () async {
+                      await loginCheck.logout(context);
                     },
                     child: Text('로그아웃',
                         style: TextStyle(
@@ -190,8 +226,7 @@ class MainScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => FeederManual(
-                                  ),
+                                  builder: (context) => FeederManual(),
                                 ));
                           },
                           child: Text('설정',
@@ -229,9 +264,9 @@ class MainScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/mainpage');
             case 2:
               Navigator.pushNamed(context, '/catview');
-          // default:
-          //   Navigator.pushNamed(context, '/health');
-          // ***디폴트 경로 설정: 필요할 경우 추가하기***
+            // default:
+            //   Navigator.pushNamed(context, '/health');
+            // ***디폴트 경로 설정: 필요할 경우 추가하기***
           }
         },
         items: [

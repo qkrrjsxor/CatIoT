@@ -25,7 +25,6 @@ public class MealController {
 	public ResponseEntity<?> feed(@RequestBody MealEaten meal) {
 		
 		
-		return entity;
 	}
 	
 }
