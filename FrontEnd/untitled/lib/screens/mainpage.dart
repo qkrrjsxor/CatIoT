@@ -39,10 +39,10 @@ class MainScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('고양이 집사님, 환영합니다',
+                  Text('$loginName 집사님, 환영합니다',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 22,
+                        fontSize: 18,
                       )),
                   SizedBox(width: 30),
                   ElevatedButton(
@@ -191,7 +191,6 @@ class MainScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => FeederManual(
-                                    screenData: '수동!',
                                   ),
                                 ));
                           },

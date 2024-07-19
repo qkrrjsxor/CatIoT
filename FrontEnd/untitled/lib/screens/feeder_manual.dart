@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/mainpage.dart';
+import 'package:untitled/screens/manual_check.dart';
 
-class FeederManual extends StatelessWidget {
-  final String screenData;
+class FeederManual extends StatefulWidget {
+  const FeederManual({super.key});
+  @override
+  State<FeederManual> createState() => ManualScreen();
+}
 
-  FeederManual({required this.screenData});
+class ManualScreen extends State<FeederManual>{
+  final ManualCheck manualCheck = ManualCheck();
+
+  TextEditingController manualController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +65,7 @@ class FeederManual extends StatelessWidget {
                       children: [
                         Expanded(
                           child: TextField(
+                            controller: manualController,
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -87,13 +96,15 @@ class FeederManual extends StatelessWidget {
             ),
             TextButton(
               style: TextButton.styleFrom(backgroundColor: Colors.pink),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainScreen(),
-                    ));
+              onPressed: () async{
+                await manualCheck.manual(context, manualController.text);
+                print(manualController.text);
+                // Navigator.of(context).pop();
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => MainScreen(),
+                //     ));
               },
               child: Text(
                 '배급하기',

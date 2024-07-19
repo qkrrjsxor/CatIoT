@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/mainpage.dart';
+import 'package:untitled/screens/auto_check.dart';
+
+int feedcounter = 0;
 
 class FeederAuto extends StatefulWidget {
   const FeederAuto({super.key});
@@ -10,6 +13,10 @@ class FeederAuto extends StatefulWidget {
 
 class AutoScreen extends State<FeederAuto> {
   // db에 저장 된 시간이 있으면 불러오자
+
+  final AutoCheck autoCheck = AutoCheck();
+
+
   TimeOfDay firstTime = TimeOfDay.now(); // 현재 시간 기준으로 시간대를 생성하는 생성자
   TimeOfDay secondTime = TimeOfDay.now();
   TimeOfDay thirdTime = TimeOfDay.now();
@@ -17,27 +24,26 @@ class AutoScreen extends State<FeederAuto> {
   TimeOfDay fifthTime = TimeOfDay.now();
 
 
-  final TextEditingController _firstFood = TextEditingController();
-  final TextEditingController _secondFood = TextEditingController();
-  final TextEditingController _thirdFood = TextEditingController();
-  final TextEditingController _fourthFood = TextEditingController();
-  final TextEditingController _fifthFood = TextEditingController();
+  TextEditingController _firstFood = TextEditingController();
+  TextEditingController _secondFood = TextEditingController();
+  TextEditingController _thirdFood = TextEditingController();
+  TextEditingController _fourthFood = TextEditingController();
+  TextEditingController _fifthFood = TextEditingController();
 
 
-  int _counter = 0;
 
   void _incrementCounter() {
-    if (_counter >= 0 && _counter < 5){
+    if (feedcounter >= 0 && feedcounter < 5){
       setState(() {
-        _counter++;
+        feedcounter++;
       });
     }
 
   }
   void _decrementCounter() {
-    if (_counter > 0 && _counter < 6) {
+    if (feedcounter > 0 && feedcounter < 6) {
       setState(() {
-        _counter--;
+        feedcounter--;
       });
     }
   }
@@ -79,7 +85,7 @@ class AutoScreen extends State<FeederAuto> {
                     style: TextStyle(color: Colors.black38),
                   ),
                   Text(
-                    '하루 $_counter회',
+                    '하루 $feedcounter회',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ],
@@ -112,15 +118,15 @@ class AutoScreen extends State<FeederAuto> {
               // ),
             ),
             AbsorbPointer(
-              absorbing: _counter < 1,
+              absorbing: feedcounter < 1,
               child:Container(
                 height:80,
                 padding: EdgeInsets.all(20),
                 margin: EdgeInsets.all(10),
                 width: 350,
                 decoration: BoxDecoration(
-                    color: _counter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-                    border: Border.all(color: _counter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+                    color: feedcounter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+                    border: Border.all(color: feedcounter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
                 child: Row(
                   children: [
                     Text(
@@ -130,7 +136,7 @@ class AutoScreen extends State<FeederAuto> {
                     SizedBox(width: 5),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: _counter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                            backgroundColor: feedcounter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
                         onPressed: () async {
                           final TimeOfDay? selectedTime = await showTimePicker(
                             // showTimePicker - context와 초기 시간 값 전달해야 함
@@ -175,15 +181,15 @@ class AutoScreen extends State<FeederAuto> {
               ),
             ),
 AbsorbPointer(
-  absorbing: _counter<2,
+  absorbing: feedcounter<2,
   child:Container(
     height:80,
     padding: EdgeInsets.all(20),
     margin: EdgeInsets.all(10),
     width: 350,
     decoration: BoxDecoration(
-      color: _counter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-        border: Border.all(color: _counter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+      color: feedcounter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+        border: Border.all(color: feedcounter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
     child: Row(
       children: [
         Text(
@@ -193,7 +199,7 @@ AbsorbPointer(
         SizedBox(width: 5),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: _counter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                backgroundColor: feedcounter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
             onPressed: () async {
               final TimeOfDay? selectedTime = await showTimePicker(
                 // showTimePicker - context와 초기 시간 값 전달해야 함
@@ -238,15 +244,15 @@ AbsorbPointer(
   ),
 ),
             AbsorbPointer(
-              absorbing: _counter<3,
+              absorbing: feedcounter<3,
               child:Container(
                 height:80,
                 padding: EdgeInsets.all(20),
                 margin: EdgeInsets.all(10),
                 width: 350,
                 decoration: BoxDecoration(
-                    color: _counter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-                    border: Border.all(color: _counter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+                    color: feedcounter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+                    border: Border.all(color: feedcounter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
                 child: Row(
                   children: [
                     Text(
@@ -256,7 +262,7 @@ AbsorbPointer(
                     SizedBox(width: 5),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: _counter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                            backgroundColor: feedcounter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
                         onPressed: () async {
                           final TimeOfDay? selectedTime = await showTimePicker(
                             // showTimePicker - context와 초기 시간 값 전달해야 함
@@ -301,15 +307,15 @@ AbsorbPointer(
               ),
             ),
 AbsorbPointer(
-  absorbing:_counter<4,
+  absorbing:feedcounter<4,
   child:Container(
     height:80,
     padding: EdgeInsets.all(20),
     margin: EdgeInsets.all(10),
     width: 350,
     decoration: BoxDecoration(
-        color: _counter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-        border: Border.all(color: _counter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+        color: feedcounter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+        border: Border.all(color: feedcounter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
     child: Row(
       children: [
         Text(
@@ -319,7 +325,7 @@ AbsorbPointer(
         SizedBox(width: 5),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: _counter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                backgroundColor: feedcounter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
             onPressed: () async {
               final TimeOfDay? selectedTime = await showTimePicker(
                 // showTimePicker - context와 초기 시간 값 전달해야 함
@@ -364,15 +370,15 @@ AbsorbPointer(
   ),
 ),
             AbsorbPointer(
-              absorbing: _counter<5,
+              absorbing: feedcounter<5,
               child:Container(
                 padding: EdgeInsets.all(20),
                 margin: EdgeInsets.all(10),
                 width: 350,
                 height:80,
                 decoration: BoxDecoration(
-                    color: _counter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-                    border: Border.all(color: _counter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+                    color: feedcounter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
+                    border: Border.all(color: feedcounter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
                 child: Row(
                   children: [
                     Text(
@@ -382,7 +388,7 @@ AbsorbPointer(
                     SizedBox(width: 5),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: _counter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                            backgroundColor: feedcounter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
                         onPressed: () async {
                           final TimeOfDay? selectedTime = await showTimePicker(
                             // showTimePicker - context와 초기 시간 값 전달해야 함
@@ -442,7 +448,38 @@ AbsorbPointer(
             // ),
             TextButton(
               style: TextButton.styleFrom(backgroundColor: Colors.pink),
-              onPressed: () {
+              onPressed: () async{
+                var _firstmeal = int.parse(_firstFood.text);
+                var _firsthour = firstTime.hour;
+                var _firstminute = firstTime.minute;
+                var _secondmeal = int.parse(_secondFood.text);
+                var _secondhour = secondTime.hour;
+                var _secondminute = secondTime.minute;
+                var _thirdmeal = int.parse(_thirdFood.text);
+                var _thirdhour = thirdTime.hour;
+                var _thirdminute = thirdTime.minute;
+                var _fourthmeal = int.parse(_fourthFood.text);
+                var _fourthhour = fourthTime.hour;
+                var _fourthminute = fourthTime.minute;
+                var _fifthmeal = int.parse(_fifthFood.text);
+                var _fifthhour = fifthTime.hour;
+                var _fifthminute = fifthTime.minute;
+
+                await autoCheck.auto(context, _firstmeal, _firsthour, _firstminute,
+                  _secondmeal, _secondhour, _secondminute,_thirdmeal, _thirdhour, _thirdminute,
+                  _fourthmeal, _fourthhour, _fourthminute,_fifthmeal, _fifthhour, _fifthminute,);
+                // if (_counter == 2) {
+                //   _firstFood.text = null;
+                // }
+                // print(firstTime.hour);
+                // print(firstTime.minute);
+                // print(_firstFood.text);
+                //
+                // print(secondTime.hour);
+                // print(secondTime.minute);
+                // print(_secondFood.text);
+
+
                 Navigator.of(context).pop();
                 Navigator.push(
                     context,

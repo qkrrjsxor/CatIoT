@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:untitled/screens/mainpage.dart';
-
 import 'login.dart';
+var loginName = '';
 
 class LoginCheck {
   final String baseUrl = 'http://10.0.2.2:8080/api/user';
@@ -22,6 +21,7 @@ class LoginCheck {
       print('비동기 테스트');
       if (response.statusCode == 200) {
         print('로그인 성공:${response.body}');
+        loginName = userId;
         Navigator.pop(context);
         Navigator.push(
             context,
