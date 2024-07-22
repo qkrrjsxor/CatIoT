@@ -6,8 +6,17 @@ import java.time.LocalTime;
 public class MealSchedule {
 	private int scheduleId;
 	private int catId;
-	private LocalTime mealTime;	// 배급 시간
-	private int mealScheduledAmount;	// 배급량
+	private int scheduleCount;	// 횟수
+	private LocalTime scheduleTime1;	// 배급 시간
+	private LocalTime scheduleTime2;	// 배급 시간
+	private LocalTime scheduleTime3;	// 배급 시간
+	private LocalTime scheduleTime4;	// 배급 시간
+	private LocalTime scheduleTime5;	// 배급 시간
+	private int scheduleAmount1;	// 배급량
+	private int schedulelAmount2;	// 배급량
+	private int scheduleAmount3;	// 배급량
+	private int scheduleAmount4;	// 배급량
+	private int scheduleAmount5;	// 배급량
 	
 	public MealSchedule() {}
 
@@ -27,21 +36,92 @@ public class MealSchedule {
 		this.catId = catId;
 	}
 
-	public LocalTime getMealTime() {
-		return mealTime;
+	public int getScheduleCount() {
+		return scheduleCount;
 	}
 
-	public void setMealTime(LocalTime mealTime) {
-		this.mealTime = mealTime;
+	public void setScheduleCount(int scheduleCount) {
+		this.scheduleCount = scheduleCount;
 	}
 
-	public int getMealScheduledAmount() {
-		return mealScheduledAmount;
+	public LocalTime getScheduleTime1() {
+		return scheduleTime1;
 	}
 
-	public void setMealScheduledAmount(int mealScheduledAmount) {
-		this.mealScheduledAmount = mealScheduledAmount;
+	public void setScheduleTime1(LocalTime scheduleTime1) {
+		this.scheduleTime1 = scheduleTime1;
 	}
-	
-	
+
+	public LocalTime getScheduleTime2() {
+		return scheduleTime2;
+	}
+
+	public void setScheduleTime2(LocalTime scheduleTime2) {
+		this.scheduleTime2 = scheduleTime2;
+	}
+
+	public LocalTime getScheduleTime3() {
+		return scheduleTime3;
+	}
+
+	public void setScheduleTime3(LocalTime scheduleTime3) {
+		this.scheduleTime3 = scheduleTime3;
+	}
+
+	public LocalTime getScheduleTime4() {
+		return scheduleTime4;
+	}
+
+	public void setScheduleTime4(LocalTime scheduleTime4) {
+		this.scheduleTime4 = scheduleTime4;
+	}
+
+	public LocalTime getScheduleTime5() {
+		return scheduleTime5;
+	}
+
+	public void setScheduleTime5(LocalTime scheduleTime5) {
+		this.scheduleTime5 = scheduleTime5;
+	}
+
+	public int getScheduleAmount1() {
+		return scheduleAmount1;
+	}
+
+	public void setScheduleAmount1(int scheduleAmount1) {
+		this.scheduleAmount1 = scheduleAmount1;
+	}
+
+	public int getSchedulelAmount2() {
+		return schedulelAmount2;
+	}
+
+	public void setSchedulelAmount2(int schedulelAmount2) {
+		this.schedulelAmount2 = schedulelAmount2;
+	}
+
+	public int getScheduleAmount3() {
+		return scheduleAmount3;
+	}
+
+	public void setScheduleAmount3(int scheduleAmount3) {
+		this.scheduleAmount3 = scheduleAmount3;
+	}
+
+	public int getScheduleAmount4() {
+		return scheduleAmount4;
+	}
+
+	public void setScheduleAmount4(int scheduleAmount4) {
+		this.scheduleAmount4 = scheduleAmount4;
+	}
+
+	public int getScheduleAmount5() {
+		return scheduleAmount5;
+	}
+
+	public void setScheduleAmount5(int scheduleAmount5) {
+		this.scheduleAmount5 = scheduleAmount5;
+	}
+		
 }

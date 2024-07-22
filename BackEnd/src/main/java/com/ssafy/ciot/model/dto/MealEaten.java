@@ -7,7 +7,7 @@ public class MealEaten {
 	private int mealId;
 	private int catId;
 	private LocalDateTime mealDate;	// 날짜
-	private int mealEatenAmount;	// 먹은 양
+	private int mealAmount;	// 먹은 양
 	
 	
 	public int getMealId() {
@@ -28,10 +28,10 @@ public class MealEaten {
 	public void setMealDate(LocalDateTime mealDate) {
 		this.mealDate = mealDate;
 	}
-	public int getMealEatenAmount() {
-		return mealEatenAmount;
+	public int getMealAmount() {
+		return mealAmount;
 	}
-	public void setMealEatenAmount(int mealEatenAmount) {
-		this.mealEatenAmount = mealEatenAmount;
+	public void setMealAmount(int mealAmount) {
+		this.mealAmount = mealAmount;
 	}
 }
