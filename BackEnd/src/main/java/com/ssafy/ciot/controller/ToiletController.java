@@ -17,6 +17,6 @@ public class ToiletController {
 	}
 	
 	// 배변 기록 저장
-	@PostMapping("/get")
+//	@PostMapping("/get")
 	
 }

@@ -7,13 +7,13 @@
 <mapper namespace="com.ssafy.ciot.model.dao.MealDao">
 
 	<!-- 먹은 양 저장 -->
-	<insert id="insertMeal">
+	<insert id="insertMeal" parameterType="MealEaten">
 		INSERT INTO meal_eaten (cat_id, meal_date, meal_amount)
 		VALUES (#{catId}, #{mealDate}, #{mealAmount})
 	</insert>
 	
 	<!-- 스케줄 저장 -->
-	<insert id="inserSchedule" parameterType="com.example.MealSchedule">
+	<insert id="inserSchedule" parameterType="MealSchedule">
         INSERT INTO meal_schedule (
             cat_id, schedule_count,
             schedule_time1, schedule_time2, schedule_time3, schedule_time4, schedule_time5,

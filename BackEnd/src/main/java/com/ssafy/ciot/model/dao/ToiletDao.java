@@ -6,4 +6,5 @@ public interface ToiletDao {
 	// 배변 기록 삽입
 	public int insertToilet(Toilet toilet);
 	
+	// 배변 기록 선택
 }

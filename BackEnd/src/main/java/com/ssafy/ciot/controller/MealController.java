@@ -41,7 +41,7 @@ public class MealController {
 	public ResponseEntity<?> autoFeed(@RequestBody MealSchedule mealSchedule){
 		int count = mealSchedule.getScheduleCount();
 		
-		int result = mealService.autoFeed(mealSchedule);
+		int result = mealService.insertSchedule(mealSchedule);
 		
 		if(result == 1) {
 			return new ResponseEntity<> ("스케줄 입력 성공", HttpStatus.OK);
