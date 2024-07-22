@@ -99,12 +99,12 @@ class ManualScreen extends State<FeederManual>{
               onPressed: () async{
                 await manualCheck.manual(context, manualController.text);
                 print(manualController.text);
-                // Navigator.of(context).pop();
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => MainScreen(),
-                //     ));
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreen(),
+                    ));
               },
               child: Text(
                 '배급하기',
