@@ -31,6 +31,74 @@ class MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 70,
+        actions: [
+        Container(
+            child:Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children:[
+                  SizedBox(width:30),
+                  if (CatInfo != null && CatInfo!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<String>(
+                        value: selectedCatName,
+
+                        icon: Icon(Icons.arrow_drop_down, color: Colors.pink),
+                        dropdownColor: Colors.white,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedCatName = newValue!;
+                          });
+                        },
+                        items: CatInfo!.map<DropdownMenuItem<String>>((dynamic cat) {
+                          return DropdownMenuItem<String>(
+                            value: cat['catName'],
+                            child: Text(cat['catName']),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                ]
+            )
+        ),
+        ],
+        // leading:
+        // Container(
+        //     child:Row(
+        //         mainAxisAlignment: MainAxisAlignment.start,
+        //         mainAxisSize: MainAxisSize.min,
+        //         children: <Widget>[
+        //           SizedBox(width:30),
+        //           Flexible(
+        //             child:Container(
+        //
+        //             ),
+        //           ),
+        //           if (CatInfo != null && CatInfo!.isNotEmpty)
+        //             Padding(
+        //               padding: const EdgeInsets.all(8.0),
+        //               child: DropdownButton<String>(
+        //                 value: selectedCatName,
+        //
+        //                 icon: Icon(Icons.arrow_drop_down, color: Colors.pink),
+        //                 dropdownColor: Colors.white,
+        //                 onChanged: (String? newValue) {
+        //                   setState(() {
+        //                     selectedCatName = newValue!;
+        //                   });
+        //                 },
+        //                 items: CatInfo!.map<DropdownMenuItem<String>>((dynamic cat) {
+        //                   return DropdownMenuItem<String>(
+        //                     value: cat['catName'],
+        //                     child: Text(cat['catName']),
+        //                   );
+        //                 }).toList(),
+        //               ),
+        //             ),
+        //         ]
+        //     )
+        // ),
+
         title: Text('CatIoT',
             style: TextStyle(
               color: Colors.white,
@@ -40,35 +108,21 @@ class MainScreenState extends State<MainScreen> {
         centerTitle: true,
         backgroundColor: Colors.pink,
         elevation: 0.0,
+
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
              child:Row(
                mainAxisAlignment: MainAxisAlignment.start,
                children:[
-                 if (CatInfo != null && CatInfo!.isNotEmpty)
-                   Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: DropdownButton<String>(
-                       value: selectedCatName,
-                       icon: Icon(Icons.arrow_drop_down, color: Colors.pink),
-                       dropdownColor: Colors.white,
-                       onChanged: (String? newValue) {
-                         setState(() {
-                           selectedCatName = newValue!;
-                         });
-                       },
-                       items: CatInfo!.map<DropdownMenuItem<String>>((dynamic cat) {
-                         return DropdownMenuItem<String>(
-                           value: cat['catName'],
-                           child: Text(cat['catName']),
-                         );
-                       }).toList(),
-                     ),
-                   ),
+                 SizedBox(width:30),
+                 Container(
+
+                 ),
+
                ]
              )
             ),
