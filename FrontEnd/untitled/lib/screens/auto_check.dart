@@ -14,7 +14,7 @@ class AutoCheck {
       BuildContext context,
       _firsttime, _firstmeal, _secondtime, _secondmeal, _thirdtime, _thirdmeal,
       _fourthtime, _fourthmeal, _fifthtime, _fifthmeal) async {
-    print('자동 배급 체크 페이지로 넘어왔음');
+    print('자동 배급 체크 페이지로 넘어왔습니다');
 
     String? _firstTotalTime = '${_firsttime.hour}:${_firsttime.minute}';
     String? _secondTotalTime = '${_secondtime.hour}:${_secondtime.minute}';
@@ -22,9 +22,6 @@ class AutoCheck {
     String? _fourthTotalTime = '${_fourthtime.hour}:${_fourthtime.minute}';
     String? _fifthTotalTime = '${_fifthtime.hour}:${_fifthtime.minute}';
 
-    print(_firstTotalTime);
-
-    print('자동 배급하자');
     try {
 
     if (feedcounter == 0) {
@@ -46,9 +43,9 @@ class AutoCheck {
       _fifthTotalTime = null;
       }
       print('check~~~~~~');
-      print(CatInfo![0]['catId']);
-      print(_firstTotalTime);
-      print(_thirdTotalTime);
+      // print(CatInfo![0]['catId']);
+      // print(_firstTotalTime);
+      // print(_thirdTotalTime);
       final response = await http.post(Uri.parse('$baseUrl/autofeed'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({'cat_id': CatInfo![0]['catId'],
@@ -64,7 +61,7 @@ class AutoCheck {
             'meal_scheduled_amount5': _fifthmeal}));
 
       if (response.statusCode == 200) {
-        print('자동 배급 성공:${response.body}');
+        print('자동 배급 시간 설정 성공:${response.body}');
         Navigator.pop(context);
         Navigator.push(
             context,
@@ -72,7 +69,7 @@ class AutoCheck {
               builder: (context) => MainScreen(),
             ));
       } else {
-        print('자동 배급 실패:${response.body}');
+        print('자동 배급 시간 설정 실패:${response.body}');
       }
     } catch (_error) {
       print('연결 오류: $_error');
