@@ -32,6 +32,7 @@ class AutoScreen extends State<FeederAuto> {
 
 
 
+
   void _incrementCounter() {
     if (feedcounter >= 0 && feedcounter < 5){
       setState(() {
@@ -449,35 +450,69 @@ AbsorbPointer(
             TextButton(
               style: TextButton.styleFrom(backgroundColor: Colors.pink),
               onPressed: () async{
-                var _firstmeal = int.parse(_firstFood.text);
-                var _firsthour = firstTime.hour;
-                var _firstminute = firstTime.minute;
-                var _secondmeal = int.parse(_secondFood.text);
-                var _secondhour = secondTime.hour;
-                var _secondminute = secondTime.minute;
-                var _thirdmeal = int.parse(_thirdFood.text);
-                var _thirdhour = thirdTime.hour;
-                var _thirdminute = thirdTime.minute;
-                var _fourthmeal = int.parse(_fourthFood.text);
-                var _fourthhour = fourthTime.hour;
-                var _fourthminute = fourthTime.minute;
-                var _fifthmeal = int.parse(_fifthFood.text);
-                var _fifthhour = fifthTime.hour;
-                var _fifthminute = fifthTime.minute;
 
-                await autoCheck.auto(context, _firstmeal, _firsthour, _firstminute,
-                  _secondmeal, _secondhour, _secondminute,_thirdmeal, _thirdhour, _thirdminute,
-                  _fourthmeal, _fourthhour, _fourthminute,_fifthmeal, _fifthhour, _fifthminute,);
-                // if (_counter == 2) {
-                //   _firstFood.text = null;
-                // }
-                // print(firstTime.hour);
-                // print(firstTime.minute);
-                // print(_firstFood.text);
+                int? _firstmeal;
+                int? _secondmeal;
+                int? _thirdmeal;
+                int? _fourthmeal;
+                int? _fifthmeal;
+
+                if (feedcounter == 1 || feedcounter == 2 || feedcounter == 3 ||
+                    feedcounter == 4 || feedcounter == 5) {
+                  _firstmeal = int.parse(_firstFood.text);
+                } else { _firstmeal = null; }
+
+                if (feedcounter == 2 || feedcounter == 3 ||
+                feedcounter == 4 || feedcounter == 5) {
+                  _secondmeal = int.parse(_secondFood.text);
+                } else { _secondmeal = null; }
+
+                if (feedcounter == 3 ||
+                    feedcounter == 4 || feedcounter == 5) {
+                  _thirdmeal = int.parse(_thirdFood.text);
+                } else { _thirdmeal = null; }
+
+                if (feedcounter == 4 || feedcounter == 5) {
+                  _fourthmeal = int.parse(_fourthFood.text);
+                } else { _fourthmeal = null; }
+
+                if (feedcounter == 5) {
+                  _fifthmeal = int.parse(_fifthFood.text);
+                } else { _fifthmeal = null; }
+
+
+
+                // if (_firstFood.text.isNotEmpty) {
+                //   _firstmeal = int.parse(_firstFood.text);
+                // } else { _firstmeal = null; }
                 //
-                // print(secondTime.hour);
-                // print(secondTime.minute);
-                // print(_secondFood.text);
+                // if (_secondFood.text.isNotEmpty) {
+                //   _secondmeal = int.parse(_secondFood.text);
+                // } else { _secondmeal = null; }
+                //
+                // if (_thirdFood.text.isNotEmpty) {
+                //   _thirdmeal = int.parse(_thirdFood.text);
+                // } else { _thirdmeal = null; }
+                //
+                // if (_fourthFood.text.isNotEmpty) {
+                //   _fourthmeal = int.parse(_fourthFood.text);
+                // } else { _fourthmeal = null; }
+                //
+                // if (_fifthFood.text.isNotEmpty) {
+                //   _fifthmeal = int.parse(_fifthFood.text);
+                // } else { _fifthmeal = null; }
+
+                // int _firstmeal = int.parse(_firstFood.text);
+                // int _secondmeal = int.parse(_secondFood.text);
+                // int _thirdmeal = int.parse(_thirdFood.text);
+                // int _fourthmeal = int.parse(_fourthFood.text);
+                // int _fifthmeal = int.parse(_fifthFood.text);
+
+                // DateTime firstCheck = DateTime(0,0,0, firstTime.hour, firstTime.minute);
+
+                await autoCheck.auto(context,
+                    firstTime, _firstmeal, secondTime, _secondmeal, thirdTime, _thirdmeal,
+                fourthTime, _fourthmeal, fifthTime, _fifthmeal);
 
 
                 Navigator.of(context).pop();
