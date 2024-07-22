@@ -21,7 +21,7 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-
+//#include "func.c"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <string.h>
@@ -49,7 +49,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-char rx_buffer[100]; // ?��?�� 버퍼
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,27 +56,17 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 int32_t HX711_Read(void);
 void HX711_Init(void);
+int _write(int file, char *ptr, int len);
+int _read(int file, char *ptr, int len);
+void receive_ESP(int mode);
+void send_ESP(char* cmd, char* send_data);
+void parse_IPD(char* buffer);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int _read(int file, char *ptr, int len){
-	HAL_UART_Receive(&huart2, (uint8_t*)ptr, 1, 0xFFFF);
-	HAL_UART_Transmit(&huart2, (uint8_t*)ptr, 1, 100);
-	return 1;
-}
-
-int _write(int file, char *ptr, int len){
-	HAL_UART_Transmit(&huart2, (uint8_t*)ptr, len, 100);
-	return len;
-}
-
-// ESP-01 UART
-void send_AT_command(char* cmd)
-{
-  HAL_UART_Transmit(&huart3, (uint8_t*)cmd, strlen(cmd), HAL_MAX_DELAY);
-}
-
+int servo = 0;
 /* USER CODE END 0 */
 
 /**
@@ -119,21 +108,27 @@ int main(void)
 //  HAL_UART_Transmit(&huart2, "AT+RST\r\n", strlen("AT+RST\r\n"), HAL_MAX_DELAY);
 
   // ESP-01 Setting
-  send_AT_command("AT\r\n");
+  send_ESP("AT\r\n", "");
   HAL_Delay(1000);
-  send_AT_command("AT+CWMODE=1\r\n");
+  send_ESP("AT+CWMODE=1\r\n", "");
   HAL_Delay(5000);
-  send_AT_command("AT+CWJAP=\"Park\",\"1q2w3e4r\"\r\n");
-  HAL_Delay(10000);
+  send_ESP("AT+CWJAP=\"Park\",\"1q2w3e4r\"\r\n", "");
+  HAL_Delay(5000);
 
-  // Manual Setting
-//  send_AT_command("AT+CWDHCP=1,0\r\n");  // DHCP 비활성화 (1: Station, 0: DHCP 비활성화)
+  // 수동
+//  send_ESP("AT+CWDHCP=1,0\r\n");  // DHCP 비활성화
 //  HAL_Delay(1000);
-//  send_AT_command("AT+CIPSTA=\"70.12.246.99\",\"70.12.240.1\",\"255.255.248.0\"\r\n");  // 고정 IP 주소, 게이트웨이 및 서브넷 마스크 설정
+//
+//  send_ESP("AT+CIPSTA=\"70.12.246.99\"\r\n");  // 고정 IP 주소 설정
 //  HAL_Delay(1000);
-//  send_AT_command("AT+CIPDNS_DEF=\"168.126.63.1\"\r\n");  // 기본 DNS 서버 설정 (Google DNS 서버)
+//
+//  send_ESP("AT+CIPSTA=\"70.12.240.1\",\"255.255.248.0\"\r\n");  // 게이트웨이 및 서브넷 마스크 설정
 //  HAL_Delay(1000);
-  send_AT_command("AT+CIPSTART=\"TCP\",\"192.168.165.161\",8080\r\n");
+//
+//  send_ESP("AT+CIPDNS_DEF=\"192.126.63.1\"\r\n");  // 기본 DNS 서버 설정
+//  HAL_Delay(1000);
+
+  send_ESP("AT+CIPSTART=\"TCP\",\"192.168.165.161\",8080\r\n", "");
   HAL_Delay(5000);
 
   /* USER CODE END 2 */
@@ -145,27 +140,42 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	// Servo
-	__HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_2, 50);
-	HAL_Delay(200);
-
-	__HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_2, 100);
-	HAL_Delay(200);
-
 
 	// AT+CIPSEND : Data length
-	send_AT_command("AT+CIPSEND=8\r\n");
-	HAL_Delay(1000);
-	send_AT_command("Hello");
+//	send_ESP("AT+CIPSEND=8\r\n");
+
+	// ready to receive data
+	receive_ESP(1);
 	HAL_Delay(1000);
 
-	int32_t weight = HX711_Read();
-	weight -= 175000;
-	char str[32];
-	sprintf(str, "%ld\r\n", weight);
-	send_AT_command(str);
-	HAL_UART_Transmit(&huart2, str, strlen(str), 100);
-	HAL_Delay(1000); // 1�????????? ??�?????????
+	// if data request
+	if (servo == 1000) {
+		int32_t weight = HX711_Read();
+		weight -= 175000;
+		char str[9];
+		sprintf(str, "%ld\r\n", weight);
+
+		HAL_UART_Transmit(&huart2, str, strlen(str), 32);
+		send_ESP("AT+CIPSEND=7\r\n", str);
+//		HAL_Delay(1000);
+		servo = 0;
+//		continue;
+	}
+	// if meal
+	if (servo > 0) {
+		while (servo > 0) {
+			__HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_2, 55);
+			HAL_Delay(200);
+
+			__HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_2, 95);
+			HAL_Delay(200);
+
+			servo -= 10;
+		}
+
+		continue;
+	}
+
   }
   /* USER CODE END 3 */
 }
@@ -228,7 +238,7 @@ void HX711_Init(void)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(HX711_DT_PORT, &GPIO_InitStruct);
 
-    // SCK ???�� LOW�?? ?��?��
+    // SCK ???�� LOW�??? ?��?��
     HAL_GPIO_WritePin(HX711_SCK_PORT, HX711_SCK_PIN, GPIO_PIN_RESET);
 }
 
@@ -237,7 +247,7 @@ int32_t HX711_Read(void)
     int32_t count = 0;
     uint8_t i;
 
-    // ?��?��?�� �??�?? ??�??
+    // ?��?��?�� �???�??? ??�???
     while (HAL_GPIO_ReadPin(HX711_DT_PORT, HX711_DT_PIN) == GPIO_PIN_SET);
 
     for (i = 0; i < 24; i++)
@@ -251,10 +261,84 @@ int32_t HX711_Read(void)
 
     // 추�??��?�� ?��?�� ?��?��
     HAL_GPIO_WritePin(HX711_SCK_PORT, HX711_SCK_PIN, GPIO_PIN_SET);
-//    count = count ^ 0x800000;  // �???�� 비트 ?��?��
+//    count = count ^ 0x800000;  // �????�� 비트 ?��?��
     HAL_GPIO_WritePin(HX711_SCK_PORT, HX711_SCK_PIN, GPIO_PIN_RESET);
 
     return count;
+}
+
+int _read(int file, char *ptr, int len)
+{
+	HAL_UART_Receive(&huart2, (uint8_t*)ptr, 1, 0xFFFF);
+	HAL_UART_Transmit(&huart2, (uint8_t*)ptr, 1, 100);
+	return 1;
+}
+
+int _write(int file, char *ptr, int len)
+{
+	HAL_UART_Transmit(&huart2, (uint8_t*)ptr, len, 100);
+	return len;
+}
+
+// ESP-01 UART
+void send_ESP(char* cmd, char* send_data)
+{
+//  HAL_UART_Transmit(&huart3, (uint8_t*)cmd, strlen(cmd), HAL_MAX_DELAY);
+  HAL_UART_Transmit(&huart3, (uint8_t*)cmd, strlen(cmd), HAL_MAX_DELAY);
+  HAL_Delay(500);
+//  log
+  receive_ESP(0);
+
+  // if
+  if (strncmp(cmd, "AT+CIPSEND", 10) == 0) {
+//	  HAL_Delay(500);
+	  HAL_UART_Transmit(&huart3, (uint8_t*)send_data, strlen(send_data), HAL_MAX_DELAY);
+	  printf("send data : %s\r\n", send_data);
+//	  receive_ESP(1);
+  } else {
+//	  receive_ESP(0);
+  }
+  // AT COMMAND
+}
+
+void receive_ESP(int mode)
+{
+	char rx_buffer[100];
+
+	HAL_UART_Receive(&huart3, (uint8_t*)rx_buffer, sizeof(rx_buffer) - 1, 1000);  // 1초 대기
+	rx_buffer[sizeof(rx_buffer) - 1] = '\0';  // end Point Null
+	HAL_Delay(500); //
+
+	// Mode 0 : AT response Mode 1 : Server response
+	if (mode == 0) {
+		// nomal response
+		printf("Received data: %s\r\n", rx_buffer);
+	} else {
+		// server response
+		parse_IPD(rx_buffer);
+	}
+}
+
+// Data Preprocessing
+void parse_IPD(char* buffer)
+{
+    char* ipd_ptr = strstr(buffer, "+IPD,");
+    if (ipd_ptr != NULL)
+    {
+        ipd_ptr += 5;  // "+IPD,"
+        char* length_ptr = strchr(ipd_ptr, ':');
+        if (length_ptr != NULL)
+        {
+            *length_ptr = '\0';
+            int length = atoi(ipd_ptr);
+            char* data_ptr = length_ptr + 1;
+            data_ptr[length] = '\0';  // 데이터의 끝을 NULL로 설정합니다.
+
+            // preprocessing data
+            printf("Preprocessing data: %d\r\n", atoi(data_ptr));
+            servo = atoi(data_ptr);
+        }
+    }
 }
 /* USER CODE END 4 */
 
