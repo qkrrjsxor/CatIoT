@@ -94,23 +94,41 @@ class ManualScreen extends State<FeederManual>{
                 ],
               ),
             ),
-            TextButton(
-              style: TextButton.styleFrom(backgroundColor: Colors.pink),
-              onPressed: () async{
-                await manualCheck.manual(context, manualController.text);
-                print(manualController.text);
-                // Navigator.of(context).pop();
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => MainScreen(),
-                //     ));
-              },
-              child: Text(
-                '배급하기',
-                style: TextStyle(color: Colors.white),
-              ),
+            // 취소 버튼 추가, 메인화면으로 이동
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(backgroundColor: Colors.grey),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    '취소',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(width: 20),
+                TextButton(
+                  style: TextButton.styleFrom(backgroundColor: Colors.pink),
+                  onPressed: () async {
+                    await manualCheck.manual(context, manualController.text);
+                    print(manualController.text);
+                    // Navigator.of(context).pop();
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => MainScreen(),
+                    //     ));
+                  },
+                  child: Text(
+                    '배급하기',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
+            
           ],
         ),
       ),
@@ -118,12 +136,17 @@ class ManualScreen extends State<FeederManual>{
         onTap: (int index) {
           switch (index) {
             case 0:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/health');
               break;
             case 1:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/mainpage');
+              break;
             case 2:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/catview');
+              break;
           // default:
           //   Navigator.pushNamed(context, '/health');
           // ***디폴트 경로 설정: 필요할 경우 추가하기***

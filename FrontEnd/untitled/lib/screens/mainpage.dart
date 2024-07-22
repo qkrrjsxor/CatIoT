@@ -236,7 +236,7 @@ class MainScreenState extends State<MainScreen> {
                                   Color.fromARGB(255, 255, 255, 255)),
                           onPressed: () {
                             //
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -284,7 +284,7 @@ class MainScreenState extends State<MainScreen> {
                                   Color.fromARGB(255, 255, 255, 255)),
                           onPressed: () {
                             //
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -320,20 +320,25 @@ class MainScreenState extends State<MainScreen> {
         onTap: (int index) {
           switch (index) {
             case 0:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/health');
               break;
             case 1:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/mainpage');
+              break;
             case 2:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/catview');
-            // default:
-            //   Navigator.pushNamed(context, '/health');
-            // ***디폴트 경로 설정: 필요할 경우 추가하기***
+              break;
+          // default:
+          //   Navigator.pushNamed(context, '/health');
+          // ***디폴트 경로 설정: 필요할 경우 추가하기***
           }
         },
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.medical_services), label: '건강 체크'),
+              icon: Icon(Icons.medical_services), label: '고양이 건강 체크'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: '메인 페이지'),
           BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 보러가기'),
         ],

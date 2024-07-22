@@ -135,15 +135,20 @@ class _MyCatState extends State<CatScreen> {
         onTap: (int index) {
           switch (index) {
             case 0:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/health');
               break;
             case 1:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/mainpage');
+              break;
             case 2:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/catview');
-            // default:
-            //   Navigator.pushNamed(context, '/health');
-            // ***디폴트 경로 설정: 필요할 경우 추가하기***
+              break;
+          // default:
+          //   Navigator.pushNamed(context, '/health');
+          // ***디폴트 경로 설정: 필요할 경우 추가하기***
           }
         },
         items: [

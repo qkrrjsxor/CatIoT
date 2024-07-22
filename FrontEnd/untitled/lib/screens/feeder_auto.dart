@@ -447,86 +447,104 @@ AbsorbPointer(
             //     ],
             //   ),
             // ),
-            TextButton(
-              style: TextButton.styleFrom(backgroundColor: Colors.pink),
-              onPressed: () async{
 
-                int? _firstmeal;
-                int? _secondmeal;
-                int? _thirdmeal;
-                int? _fourthmeal;
-                int? _fifthmeal;
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(backgroundColor: Colors.grey),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    '취소',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(width: 20),
+                TextButton(
+                  style: TextButton.styleFrom(backgroundColor: Colors.pink),
+                  onPressed: () async{
 
-                if (feedcounter == 1 || feedcounter == 2 || feedcounter == 3 ||
-                    feedcounter == 4 || feedcounter == 5) {
-                  _firstmeal = int.parse(_firstFood.text);
-                } else { _firstmeal = null; }
+                    int? _firstmeal;
+                    int? _secondmeal;
+                    int? _thirdmeal;
+                    int? _fourthmeal;
+                    int? _fifthmeal;
 
-                if (feedcounter == 2 || feedcounter == 3 ||
-                feedcounter == 4 || feedcounter == 5) {
-                  _secondmeal = int.parse(_secondFood.text);
-                } else { _secondmeal = null; }
+                    if (feedcounter == 1 || feedcounter == 2 || feedcounter == 3 ||
+                        feedcounter == 4 || feedcounter == 5) {
+                      _firstmeal = int.parse(_firstFood.text);
+                    } else { _firstmeal = null; }
 
-                if (feedcounter == 3 ||
-                    feedcounter == 4 || feedcounter == 5) {
-                  _thirdmeal = int.parse(_thirdFood.text);
-                } else { _thirdmeal = null; }
+                    if (feedcounter == 2 || feedcounter == 3 ||
+                        feedcounter == 4 || feedcounter == 5) {
+                      _secondmeal = int.parse(_secondFood.text);
+                    } else { _secondmeal = null; }
 
-                if (feedcounter == 4 || feedcounter == 5) {
-                  _fourthmeal = int.parse(_fourthFood.text);
-                } else { _fourthmeal = null; }
+                    if (feedcounter == 3 ||
+                        feedcounter == 4 || feedcounter == 5) {
+                      _thirdmeal = int.parse(_thirdFood.text);
+                    } else { _thirdmeal = null; }
 
-                if (feedcounter == 5) {
-                  _fifthmeal = int.parse(_fifthFood.text);
-                } else { _fifthmeal = null; }
+                    if (feedcounter == 4 || feedcounter == 5) {
+                      _fourthmeal = int.parse(_fourthFood.text);
+                    } else { _fourthmeal = null; }
 
-
-
-                // if (_firstFood.text.isNotEmpty) {
-                //   _firstmeal = int.parse(_firstFood.text);
-                // } else { _firstmeal = null; }
-                //
-                // if (_secondFood.text.isNotEmpty) {
-                //   _secondmeal = int.parse(_secondFood.text);
-                // } else { _secondmeal = null; }
-                //
-                // if (_thirdFood.text.isNotEmpty) {
-                //   _thirdmeal = int.parse(_thirdFood.text);
-                // } else { _thirdmeal = null; }
-                //
-                // if (_fourthFood.text.isNotEmpty) {
-                //   _fourthmeal = int.parse(_fourthFood.text);
-                // } else { _fourthmeal = null; }
-                //
-                // if (_fifthFood.text.isNotEmpty) {
-                //   _fifthmeal = int.parse(_fifthFood.text);
-                // } else { _fifthmeal = null; }
-
-                // int _firstmeal = int.parse(_firstFood.text);
-                // int _secondmeal = int.parse(_secondFood.text);
-                // int _thirdmeal = int.parse(_thirdFood.text);
-                // int _fourthmeal = int.parse(_fourthFood.text);
-                // int _fifthmeal = int.parse(_fifthFood.text);
-
-                // DateTime firstCheck = DateTime(0,0,0, firstTime.hour, firstTime.minute);
-
-                await autoCheck.auto(context,
-                    firstTime, _firstmeal, secondTime, _secondmeal, thirdTime, _thirdmeal,
-                fourthTime, _fourthmeal, fifthTime, _fifthmeal);
+                    if (feedcounter == 5) {
+                      _fifthmeal = int.parse(_fifthFood.text);
+                    } else { _fifthmeal = null; }
 
 
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainScreen(),
-                    ));
-              },
-              child: Text(
-                '설정하기',
-                style: TextStyle(color: Colors.white),
-              ),
+
+                    // if (_firstFood.text.isNotEmpty) {
+                    //   _firstmeal = int.parse(_firstFood.text);
+                    // } else { _firstmeal = null; }
+                    //
+                    // if (_secondFood.text.isNotEmpty) {
+                    //   _secondmeal = int.parse(_secondFood.text);
+                    // } else { _secondmeal = null; }
+                    //
+                    // if (_thirdFood.text.isNotEmpty) {
+                    //   _thirdmeal = int.parse(_thirdFood.text);
+                    // } else { _thirdmeal = null; }
+                    //
+                    // if (_fourthFood.text.isNotEmpty) {
+                    //   _fourthmeal = int.parse(_fourthFood.text);
+                    // } else { _fourthmeal = null; }
+                    //
+                    // if (_fifthFood.text.isNotEmpty) {
+                    //   _fifthmeal = int.parse(_fifthFood.text);
+                    // } else { _fifthmeal = null; }
+
+                    // int _firstmeal = int.parse(_firstFood.text);
+                    // int _secondmeal = int.parse(_secondFood.text);
+                    // int _thirdmeal = int.parse(_thirdFood.text);
+                    // int _fourthmeal = int.parse(_fourthFood.text);
+                    // int _fifthmeal = int.parse(_fifthFood.text);
+
+                    // DateTime firstCheck = DateTime(0,0,0, firstTime.hour, firstTime.minute);
+
+                    await autoCheck.auto(context,
+                        firstTime, _firstmeal, secondTime, _secondmeal, thirdTime, _thirdmeal,
+                        fourthTime, _fourthmeal, fifthTime, _fifthmeal);
+
+
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainScreen(),
+                        ));
+                  },
+                  child: Text(
+                    '설정하기',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
+
           ],
         ),
       ),
@@ -534,12 +552,17 @@ AbsorbPointer(
         onTap: (int index) {
           switch (index) {
             case 0:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/health');
               break;
             case 1:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/mainpage');
+              break;
             case 2:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/catview');
+              break;
           // default:
           //   Navigator.pushNamed(context, '/health');
           // ***디폴트 경로 설정: 필요할 경우 추가하기***
