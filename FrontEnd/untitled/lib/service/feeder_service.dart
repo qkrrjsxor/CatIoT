@@ -98,12 +98,7 @@ class FeederService {
 
       if (response.statusCode == 200) {
         print('자동 배급 성공:${response.body}');
-        Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MainScreen(),
-            ));
+
       } else {
         print('자동 배급 실패:${response.body}');
       }

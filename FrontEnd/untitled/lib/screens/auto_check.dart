@@ -48,26 +48,22 @@ class AutoCheck {
       // print(_thirdTotalTime);
       final response = await http.post(Uri.parse('$baseUrl/autofeed'),
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'cat_id': CatInfo![0]['catId'],
-            'meal_time1': _firstTotalTime,
-            'meal_time2': _secondTotalTime,
-            'meal_time3': _thirdTotalTime,
-            'meal_time4': _fourthTotalTime,
-            'meal_time5': _fifthTotalTime,
-            'meal_scheduled_amount1': _firstmeal,
-            'meal_scheduled_amount2': _secondmeal,
-            'meal_scheduled_amount3': _thirdmeal,
-            'meal_scheduled_amount4': _fourthmeal,
-            'meal_scheduled_amount5': _fifthmeal}));
+          body: jsonEncode({
+            'cat_id': CatInfo![0]['catId'],
+            'scheduleTime1': _firstTotalTime,
+            'scheduleTime2': _secondTotalTime,
+            'scheduleTime3': _thirdTotalTime,
+            'scheduleTime4': _fourthTotalTime,
+            'scheduleTime5': _fifthTotalTime,
+            'scheduleAmount1': _firstmeal,
+            'scheduleAmount2': _secondmeal,
+            'scheduleAmount3': _thirdmeal,
+            'scheduleAmount4': _fourthmeal,
+            'scheduleAmount5': _fifthmeal}));
 
       if (response.statusCode == 200) {
         print('자동 배급 시간 설정 성공:${response.body}');
-        Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MainScreen(),
-            ));
+
       } else {
         print('자동 배급 시간 설정 실패:${response.body}');
       }
