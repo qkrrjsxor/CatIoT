@@ -4,11 +4,12 @@ import 'package:video_player/video_player.dart';
 
 class CatScreen extends StatefulWidget {
   const CatScreen({super.key});
+
   @override
   State<CatScreen> createState() => _MyCatState();
-  // final String Urls = '!!';
-  // controller = VideoPlayerController.Urls(Uri.parse())
-  // _MyCatState createState() => _MyCatState();
+// final String Urls = '!!';
+// controller = VideoPlayerController.Urls(Uri.parse())
+// _MyCatState createState() => _MyCatState();
 }
 
 class _MyCatState extends State<CatScreen> {
@@ -146,9 +147,9 @@ class _MyCatState extends State<CatScreen> {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/catview');
               break;
-          // default:
-          //   Navigator.pushNamed(context, '/health');
-          // ***디폴트 경로 설정: 필요할 경우 추가하기***
+            // default:
+            //   Navigator.pushNamed(context, '/health');
+            // ***디폴트 경로 설정: 필요할 경우 추가하기***
           }
         },
         items: [
@@ -158,8 +159,6 @@ class _MyCatState extends State<CatScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 보러가기'),
         ],
       ),
-
-
     );
   }
 }

@@ -8,37 +8,41 @@ import '../screens/feeder_auto.dart';
 import '../screens/logincheck.dart';
 import '../screens/mainpage.dart';
 
-class FeederService{
+class FeederService {
   final String baseUrl = 'http://10.0.2.2:8080/api/meal';
 
-  Future<void> manualFeed(BuildContext context, int catId, String mealAmount) async {
+  Future<void> manualFeed(
+      BuildContext context, int catId, String mealAmount) async {
     int feedAmount = int.parse(mealAmount);
     print(catId);
     print(feedAmount);
 
-    try{
-      final response = await http.post(Uri.parse('$baseUrl/manualfeed'),
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/manualfeed'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'catId': catId,
-          'feedAmount': feedAmount
-        }),
+        body: jsonEncode({'catId': catId, 'feedAmount': feedAmount}),
       );
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         print('수동 급여 성공: ${response.body}');
       }
-    }catch (_error) {
+    } catch (_error) {
       print('연결 오류: $_error');
     }
-
-
-
   }
 
   Future<void> autoFeed(
       BuildContext context,
-      _firsttime, _firstmeal, _secondtime, _secondmeal, _thirdtime, _thirdmeal,
-      _fourthtime, _fourthmeal, _fifthtime, _fifthmeal) async {
+      _firsttime,
+      _firstmeal,
+      _secondtime,
+      _secondmeal,
+      _thirdtime,
+      _thirdmeal,
+      _fourthtime,
+      _fourthmeal,
+      _fifthtime,
+      _fifthmeal) async {
     print('자동 배급 체크 페이지로 넘어왔음');
 
     String? _firstTotalTime = '${_firsttime.hour}:${_firsttime.minute}';
@@ -51,23 +55,25 @@ class FeederService{
 
     print('자동 배급하자');
     try {
-
       if (feedcounter == 0) {
-        _firstTotalTime = null;_secondTotalTime = null;_thirdTotalTime = null;
-        _fourthTotalTime = null;_fifthTotalTime = null;
-      }
-      else if (feedcounter == 1) {
-        _secondTotalTime = null;_thirdTotalTime = null;
-        _fourthTotalTime = null;_fifthTotalTime = null;
-      }
-      else if (feedcounter == 2) {
-        _thirdTotalTime = null;_fourthTotalTime = null;
+        _firstTotalTime = null;
+        _secondTotalTime = null;
+        _thirdTotalTime = null;
+        _fourthTotalTime = null;
         _fifthTotalTime = null;
-      }
-      else if (feedcounter == 3 ) {
-        _fourthTotalTime = null;_fifthTotalTime = null;
-      }
-      else if ( feedcounter == 4 ) {
+      } else if (feedcounter == 1) {
+        _secondTotalTime = null;
+        _thirdTotalTime = null;
+        _fourthTotalTime = null;
+        _fifthTotalTime = null;
+      } else if (feedcounter == 2) {
+        _thirdTotalTime = null;
+        _fourthTotalTime = null;
+        _fifthTotalTime = null;
+      } else if (feedcounter == 3) {
+        _fourthTotalTime = null;
+        _fifthTotalTime = null;
+      } else if (feedcounter == 4) {
         _fifthTotalTime = null;
       }
       print('check~~~~~~');
@@ -76,7 +82,8 @@ class FeederService{
       print(_thirdTotalTime);
       final response = await http.post(Uri.parse('$baseUrl/autofeed'),
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'cat_id': CatInfo![0]['catId'],
+          body: jsonEncode({
+            'cat_id': CatInfo![0]['catId'],
             'meal_time1': _firstTotalTime,
             'meal_time2': _secondTotalTime,
             'meal_time3': _thirdTotalTime,
@@ -86,7 +93,8 @@ class FeederService{
             'meal_scheduled_amount2': _secondmeal,
             'meal_scheduled_amount3': _thirdmeal,
             'meal_scheduled_amount4': _fourthmeal,
-            'meal_scheduled_amount5': _fifthmeal}));
+            'meal_scheduled_amount5': _fifthmeal
+          }));
 
       if (response.statusCode == 200) {
         print('자동 배급 성공:${response.body}');

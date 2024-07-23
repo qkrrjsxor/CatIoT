@@ -8,24 +8,20 @@ import 'package:untitled/screens/login.dart';
 class SignupCheck {
   final String baseUrl = 'http://10.0.2.2:8080/api/user';
 
-  Future<void> signup(BuildContext context ,String userId, String password,
+  Future<void> signup(BuildContext context, String userId, String password,
       String catName, String catGender, String catAge) async {
-    final response = await http.post(Uri.parse('$baseUrl/signup'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'user': {
-            'userId': userId,
-            'password': password,
-            'userName': userId
-          },
-          'cat': {
-            'catName': catName,
-            'catAge': int.parse(catAge),
-            'catGender': catGender
-          }
-        }),
-      );
-
+    final response = await http.post(
+      Uri.parse('$baseUrl/signup'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'user': {'userId': userId, 'password': password, 'userName': userId},
+        'cat': {
+          'catName': catName,
+          'catAge': int.parse(catAge),
+          'catGender': catGender
+        }
+      }),
+    );
 
     if (response.statusCode == 200) {
       print('회원가입 성공:${response.body}');

@@ -8,11 +8,12 @@ import 'logincheck.dart';
 
 class FeederManual extends StatefulWidget {
   const FeederManual({super.key});
+
   @override
   State<FeederManual> createState() => ManualScreen();
 }
 
-class ManualScreen extends State<FeederManual>{
+class ManualScreen extends State<FeederManual> {
   final ManualCheck manualCheck = ManualCheck();
   final FeederService feederService = FeederService();
   TextEditingController manualController = TextEditingController();
@@ -70,7 +71,10 @@ class ManualScreen extends State<FeederManual>{
                         Expanded(
                           child: TextField(
                               keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9]'))
+                              ],
                               controller: manualController,
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -119,7 +123,8 @@ class ManualScreen extends State<FeederManual>{
                   style: TextButton.styleFrom(backgroundColor: Colors.pink),
                   onPressed: () async {
                     // await manualCheck.manual(context, manualController.text);
-                    await feederService.manualFeed(context, CatInfo![0]['catId'], manualController.text);
+                    await feederService.manualFeed(
+                        context, CatInfo![0]['catId'], manualController.text);
                     print(manualController.text);
                     // Navigator.of(context).pop();
                     // Navigator.push(
@@ -135,7 +140,6 @@ class ManualScreen extends State<FeederManual>{
                 ),
               ],
             ),
-            
           ],
         ),
       ),
@@ -154,9 +158,9 @@ class ManualScreen extends State<FeederManual>{
               Navigator.pop(context);
               Navigator.pushNamed(context, '/catview');
               break;
-          // default:
-          //   Navigator.pushNamed(context, '/health');
-          // ***디폴트 경로 설정: 필요할 경우 추가하기***
+            // default:
+            //   Navigator.pushNamed(context, '/health');
+            // ***디폴트 경로 설정: 필요할 경우 추가하기***
           }
         },
         items: [
