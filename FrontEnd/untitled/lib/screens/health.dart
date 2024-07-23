@@ -11,6 +11,12 @@ class Health extends StatefulWidget {
 class HealthScreen extends State<Health>{
 
 
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,27 +38,33 @@ class HealthScreen extends State<Health>{
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height:40),
-            Text('우리 고양이의 건강 상태는?', style: TextStyle(fontSize:20, fontWeight:FontWeight.bold),),
+            Text('우리 고양이의 건강 상태는?', style: TextStyle(fontSize:23, fontWeight:FontWeight.bold),),
             SizedBox(height:40),
-            // Container(
-            //   padding: EdgeInsets.all(30),
-            //   margin: EdgeInsets.all(10),
-            //   width: 300,
-            //   decoration:
-            //       BoxDecoration(border: Border.all(color: Colors.green)),
-            //   child: Column(
-            //     children: [
-            //       Text('오늘의 건강 분석'),
-            //       Text('식사: 양호'),
-            //       Text('배변: 양호'),
-            //     ],
-            //   ),
-            // ),
-            // Text('고양이의 주간 건강 분석'),
             TableCalendar(
               firstDay: DateTime.utc(2024, 07, 01),
               lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: DateTime.now(),
+              focusedDay: _focusedDay,
+              // focusedDay: DateTime.now(),
+              calendarFormat: _calendarFormat,
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
+                });
+              },
+                onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+                },
+              onPageChanged: (focusedDay) {
+                _focusedDay = focusedDay;
+              },
               // locale: 'ko,KR',
             ),
             // Container(
