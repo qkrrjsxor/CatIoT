@@ -16,7 +16,8 @@ class CookieManager {
   Future<void> saveFromResponse(Uri uri, List<Cookie> cookies) async {
     _cookieJar.saveFromResponse(uri, cookies);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> cookiesString = cookies.map((cookie) => cookie.toString()).toList();
+    List<String> cookiesString =
+        cookies.map((cookie) => cookie.toString()).toList();
     prefs.setStringList('cookies', cookiesString);
   }
 
@@ -24,7 +25,8 @@ class CookieManager {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? cookiesString = prefs.getStringList('cookies');
     if (cookiesString != null) {
-      List<Cookie> cookies = cookiesString.map((str) => Cookie.fromSetCookieValue(str)).toList();
+      List<Cookie> cookies =
+          cookiesString.map((str) => Cookie.fromSetCookieValue(str)).toList();
       _cookieJar.saveFromResponse(uri, cookies);
     }
     return _cookieJar.loadForRequest(uri);

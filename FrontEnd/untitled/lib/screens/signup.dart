@@ -30,8 +30,8 @@ class SignupStateScreen extends State<Signup> {
 
   // 정규식
   final RegExp userRegExp = RegExp(r'^[a-zA-Z0-9]{4,}$');
-  final RegExp passwordRegExp = RegExp(
-      r'^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$');
+  final RegExp passwordRegExp =
+      RegExp(r'^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$');
 
   @override
   Widget build(BuildContext context) {
@@ -219,11 +219,11 @@ class SignupStateScreen extends State<Signup> {
                             ))),
                     items: genderOption.map((String option) {
                       return DropdownMenuItem<String>(
-                        value:option,
-                        child:Text(option),
+                        value: option,
+                        child: Text(option),
                       );
                     }).toList(),
-                    onChanged:(String? genderAnswer) {
+                    onChanged: (String? genderAnswer) {
                       setState(() {
                         selectedGender = genderAnswer;
                         if (selectedGender == 'male') {
@@ -231,10 +231,9 @@ class SignupStateScreen extends State<Signup> {
                         } else if (selectedGender == 'female') {
                           catGenderController.text = 'female';
                         }
-
                       });
                     },
-                    value:selectedGender,
+                    value: selectedGender,
                   ),
 
                   Visibility(
@@ -293,11 +292,15 @@ class SignupStateScreen extends State<Signup> {
                     onPressed: () async {
                       setState(() {
                         userConfirm = !userRegExp.hasMatch(userController.text);
-                        passwordConfirm = !passwordRegExp.hasMatch(passwordController.text);
-                        passwordCheckConfirm = passwordController.text != passwordCheckController.text;
+                        passwordConfirm =
+                            !passwordRegExp.hasMatch(passwordController.text);
+                        passwordCheckConfirm = passwordController.text !=
+                            passwordCheckController.text;
                         catNameConfirm = catNameController.text.length > 6;
-                        catGenderConfirm = catGenderController.text != 'male' && catGenderController.text != 'female';
-                        catAgeConfirm = int.tryParse(catAgeController.text) == null;
+                        catGenderConfirm = catGenderController.text != 'male' &&
+                            catGenderController.text != 'female';
+                        catAgeConfirm =
+                            int.tryParse(catAgeController.text) == null;
                       });
 
                       if (userConfirm == false &&
@@ -314,7 +317,6 @@ class SignupStateScreen extends State<Signup> {
                           catGenderController.text,
                           catAgeController.text,
                         );
-
                       }
                     },
                     child:
