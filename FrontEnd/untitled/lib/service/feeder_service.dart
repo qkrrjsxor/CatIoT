@@ -32,75 +32,65 @@ class FeederService {
   }
 
   Future<void> autoFeed(
-      BuildContext context,
-      _firsttime,
-      _firstmeal,
-      _secondtime,
-      _secondmeal,
-      _thirdtime,
-      _thirdmeal,
-      _fourthtime,
-      _fourthmeal,
-      _fifthtime,
-      _fifthmeal) async {
-    print('자동 배급 체크 페이지로 넘어왔음');
+      BuildContext context, scheduleCount,
+      _firsttime, _firstmeal, _secondtime, _secondmeal, _thirdtime, _thirdmeal,
+      _fourthtime, _fourthmeal, _fifthtime, _fifthmeal) async {
+    print('자동 배급 체크 페이지로 넘어왔습니다');
 
-    String? _firstTotalTime = '${_firsttime.hour}:${_firsttime.minute}';
-    String? _secondTotalTime = '${_secondtime.hour}:${_secondtime.minute}';
-    String? _thirdTotalTime = '${_thirdtime.hour}:${_thirdtime.minute}';
-    String? _fourthTotalTime = '${_fourthtime.hour}:${_fourthtime.minute}';
-    String? _fifthTotalTime = '${_fifthtime.hour}:${_fifthtime.minute}';
+    String? _firstTotalTime = '${_firsttime.hour.toString().padLeft(2,'0')}:${_firsttime.minute.toString().padLeft(2,'0')}';
+    String? _secondTotalTime = '${_secondtime.hour.toString().padLeft(2,'0')}:${_secondtime.minute.toString().padLeft(2,'0')}';
+    String? _thirdTotalTime = '${_thirdtime.hour.toString().padLeft(2,'0')}:${_thirdtime.minute.toString().padLeft(2,'0')}';
+    String? _fourthTotalTime = '${_fourthtime.hour.toString().padLeft(2,'0')}:${_fourthtime.minute.toString().padLeft(2,'0')}';
+    String? _fifthTotalTime = '${_fifthtime.hour.toString().padLeft(2,'0')}:${_fifthtime.minute.toString().padLeft(2,'0')}';
 
+    print(_firsttime);
     print(_firstTotalTime);
 
-    print('자동 배급하자');
     try {
+
       if (feedcounter == 0) {
-        _firstTotalTime = null;
-        _secondTotalTime = null;
-        _thirdTotalTime = null;
-        _fourthTotalTime = null;
+        _firstTotalTime = null;_secondTotalTime = null;_thirdTotalTime = null;
+        _fourthTotalTime = null;_fifthTotalTime = null;
+      }
+      else if (feedcounter == 1) {
+        _secondTotalTime = null;_thirdTotalTime = null;
+        _fourthTotalTime = null;_fifthTotalTime = null;
+      }
+      else if (feedcounter == 2) {
+        _thirdTotalTime = null;_fourthTotalTime = null;
         _fifthTotalTime = null;
-      } else if (feedcounter == 1) {
-        _secondTotalTime = null;
-        _thirdTotalTime = null;
-        _fourthTotalTime = null;
-        _fifthTotalTime = null;
-      } else if (feedcounter == 2) {
-        _thirdTotalTime = null;
-        _fourthTotalTime = null;
-        _fifthTotalTime = null;
-      } else if (feedcounter == 3) {
-        _fourthTotalTime = null;
-        _fifthTotalTime = null;
-      } else if (feedcounter == 4) {
+      }
+      else if (feedcounter == 3 ) {
+        _fourthTotalTime = null;_fifthTotalTime = null;
+      }
+      else if ( feedcounter == 4 ) {
         _fifthTotalTime = null;
       }
       print('check~~~~~~');
-      print(CatInfo![0]['catId']);
-      print(_firstTotalTime);
-      print(_thirdTotalTime);
+      // print(CatInfo![0]['catId']);
+      // print(_firstTotalTime);
+      // print(_thirdTotalTime);
       final response = await http.post(Uri.parse('$baseUrl/autofeed'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
-            'cat_id': CatInfo![0]['catId'],
-            'meal_time1': _firstTotalTime,
-            'meal_time2': _secondTotalTime,
-            'meal_time3': _thirdTotalTime,
-            'meal_time4': _fourthTotalTime,
-            'meal_time5': _fifthTotalTime,
-            'meal_scheduled_amount1': _firstmeal,
-            'meal_scheduled_amount2': _secondmeal,
-            'meal_scheduled_amount3': _thirdmeal,
-            'meal_scheduled_amount4': _fourthmeal,
-            'meal_scheduled_amount5': _fifthmeal
-          }));
+            'catId': CatInfo![0]['catId'],
+            'scheduleCount': scheduleCount,
+            'scheduleTime1': _firstTotalTime,
+            'scheduleTime2': _secondTotalTime,
+            'scheduleTime3': _thirdTotalTime,
+            'scheduleTime4': _fourthTotalTime,
+            'scheduleTime5': _fifthTotalTime,
+            'scheduleAmount1': _firstmeal,
+            'scheduleAmount2': _secondmeal,
+            'scheduleAmount3': _thirdmeal,
+            'scheduleAmount4': _fourthmeal,
+            'scheduleAmount5': _fifthmeal}));
 
       if (response.statusCode == 200) {
-        print('자동 배급 성공:${response.body}');
+        print('자동 배급 시간 설정 성공:${response.body}');
 
       } else {
-        print('자동 배급 실패:${response.body}');
+        print('자동 배급 시간 설정 실패:${response.body}');
       }
     } catch (_error) {
       print('연결 오류: $_error');

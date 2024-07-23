@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:untitled/screens/mainpage.dart';
-import 'package:untitled/screens/manual_check.dart';
 import 'package:untitled/service/feeder_service.dart';
 
 import 'logincheck.dart';
@@ -14,7 +13,7 @@ class FeederManual extends StatefulWidget {
 }
 
 class ManualScreen extends State<FeederManual> {
-  final ManualCheck manualCheck = ManualCheck();
+
   final FeederService feederService = FeederService();
   TextEditingController manualController = TextEditingController();
 

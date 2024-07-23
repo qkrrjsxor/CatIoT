@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:untitled/screens/mainpage.dart';
-import 'package:untitled/screens/auto_check.dart';
 
 import '../service/feeder_service.dart';
 
@@ -16,7 +15,6 @@ class FeederAuto extends StatefulWidget {
 
 class AutoScreen extends State<FeederAuto> {
   // db에 저장 된 시간이 있으면 불러오자
-
   final FeederService feederService = FeederService();
 
   TimeOfDay firstTime = TimeOfDay.now(); // 현재 시간 기준으로 시간대를 생성하는 생성자
@@ -596,6 +594,7 @@ class AutoScreen extends State<FeederAuto> {
 
                     await feederService.autoFeed(
                         context,
+                        feedcounter,
                         firstTime,
                         _firstmeal,
                         secondTime,
