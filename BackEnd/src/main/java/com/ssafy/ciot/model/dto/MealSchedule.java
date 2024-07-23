@@ -2,18 +2,25 @@ package com.ssafy.ciot.model.dto;
 
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 // 고양이별 자동 급여 스케쥴 시간 & 양
 public class MealSchedule {
 	private int scheduleId;
 	private int catId;
 	private int scheduleCount;	// 횟수
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime scheduleTime1;	// 배급 시간
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime scheduleTime2;	// 배급 시간
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime scheduleTime3;	// 배급 시간
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime scheduleTime4;	// 배급 시간
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime scheduleTime5;	// 배급 시간
 	private int scheduleAmount1;	// 배급량
-	private int schedulelAmount2;	// 배급량
+	private int scheduleAmount2;	// 배급량
 	private int scheduleAmount3;	// 배급량
 	private int scheduleAmount4;	// 배급량
 	private int scheduleAmount5;	// 배급량
@@ -92,12 +99,12 @@ public class MealSchedule {
 		this.scheduleAmount1 = scheduleAmount1;
 	}
 
-	public int getSchedulelAmount2() {
-		return schedulelAmount2;
+	public int getScheduleAmount2() {
+		return scheduleAmount2;
 	}
 
-	public void setSchedulelAmount2(int schedulelAmount2) {
-		this.schedulelAmount2 = schedulelAmount2;
+	public void setScheduleAmount2(int scheduleAmount2) {
+		this.scheduleAmount2 = scheduleAmount2;
 	}
 
 	public int getScheduleAmount3() {

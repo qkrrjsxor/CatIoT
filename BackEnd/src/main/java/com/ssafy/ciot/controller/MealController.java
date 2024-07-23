@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.ciot.model.dto.MealEaten;
 import com.ssafy.ciot.model.dto.MealFeed;
 import com.ssafy.ciot.model.dto.MealSchedule;
+import com.ssafy.ciot.model.dto.User;
 import com.ssafy.ciot.model.service.MealService;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 
 @RestController
@@ -32,7 +35,13 @@ public class MealController {
     public ResponseEntity<String> manualFeed(@RequestBody MealFeed mealFeed) {
         // 수동 급여 요청 catId, mealAmount를 받으면 라즈베리파이에 해당 catId 배급기에 mealAmount만큼 배급하라는 요청 보내기 
 		int catId = mealFeed.getCatId();
+		LocalDateTime mealDate = LocalDateTime.now();
 		int mealAmount = mealFeed.getFeedAmount();
+		
+		System.out.println(mealDate);
+		
+		// 배급 내역 저장
+		int result = mealService.insertFeed(catId, mealDate ,mealAmount);
 		
 		System.out.println("catId : " + catId + " mealAmount : " + mealAmount);
         return new ResponseEntity<>("수동급여 완료", HttpStatus.OK); 
@@ -44,16 +53,29 @@ public class MealController {
 	// 자동 급여 스케줄 저장
 	@PostMapping("/autofeed")
 	public ResponseEntity<?> autoFeed(@RequestBody MealSchedule mealSchedule){
-		int count = mealSchedule.getScheduleCount();
 		
-		int result = mealService.insertSchedule(mealSchedule);
+		int catId = mealSchedule.getCatId();
+		int isExist;
+		int result;
+		
+		try {
+			isExist = mealService.getScheduleByCatId(catId);
+			
+			if(isExist == 1) {
+				result = mealService.updateSchedule(mealSchedule);
+			}else {
+				result = mealService.insertSchedule(mealSchedule);
+			}
+			
+		} catch (Exception e) {
+			result = mealService.insertSchedule(mealSchedule);
+		}
 		
 		if(result == 1) {
 			return new ResponseEntity<> ("스케줄 입력 성공", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<> ("스케줄 입력 실패", HttpStatus.BAD_REQUEST);
 		}
-		
 	}
 	
 	// 자동 급여 스케줄 변경
@@ -68,6 +90,17 @@ public class MealController {
 		System.out.println("time : " + time + " amount : " + amount);
 		
 		return new ResponseEntity<> ("라즈베리파이 통신 테스트", HttpStatus.OK);
+	}
+	
+	//test
+	@GetMapping("eaten")
+	public User test() {
+		User user = new User();
+		
+		user.setUserId("ssafy");
+		user.setPassword("1234");
+		user.setUserName("ssafyKim");
+		return user;
 	}
 	
 }
