@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:untitled/screens/mainpage.dart';
 import 'package:untitled/screens/manual_check.dart';
+import 'package:untitled/service/feeder_service.dart';
+
+import 'logincheck.dart';
 
 class FeederManual extends StatefulWidget {
   const FeederManual({super.key});
@@ -10,7 +14,7 @@ class FeederManual extends StatefulWidget {
 
 class ManualScreen extends State<FeederManual>{
   final ManualCheck manualCheck = ManualCheck();
-
+  final FeederService feederService = FeederService();
   TextEditingController manualController = TextEditingController();
 
   @override
@@ -65,7 +69,9 @@ class ManualScreen extends State<FeederManual>{
                       children: [
                         Expanded(
                           child: TextField(
-                            controller: manualController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
+                              controller: manualController,
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -112,7 +118,8 @@ class ManualScreen extends State<FeederManual>{
                 TextButton(
                   style: TextButton.styleFrom(backgroundColor: Colors.pink),
                   onPressed: () async {
-                    await manualCheck.manual(context, manualController.text);
+                    // await manualCheck.manual(context, manualController.text);
+                    await feederService.manualFeed(context, CatInfo![0]['catId'], manualController.text);
                     print(manualController.text);
                     // Navigator.of(context).pop();
                     // Navigator.push(

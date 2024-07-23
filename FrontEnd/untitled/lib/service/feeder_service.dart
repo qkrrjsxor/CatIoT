@@ -11,18 +11,28 @@ import '../screens/mainpage.dart';
 class FeederService{
   final String baseUrl = 'http://10.0.2.2:8080/api/meal';
 
-  Future<void> manualFeed(BuildContext context, int catId, int mealAmount) async {
-    final response = await http.post(Uri.parse('$baseUrl/manualfeed'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'catId': catId,
-        'mealAmount': mealAmount
-      }),
-    );
+  Future<void> manualFeed(BuildContext context, int catId, String mealAmount) async {
+    int feedAmount = int.parse(mealAmount);
+    print(catId);
+    print(feedAmount);
 
-    if(response.statusCode == 200){
-      print('수동 급여 성공: ${response.body}');
+    try{
+      final response = await http.post(Uri.parse('$baseUrl/manualfeed'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'catId': catId,
+          'feedAmount': feedAmount
+        }),
+      );
+      if(response.statusCode == 200){
+        print('수동 급여 성공: ${response.body}');
+      }
+    }catch (_error) {
+      print('연결 오류: $_error');
     }
+
+
+
   }
 
   Future<void> autoFeed(
