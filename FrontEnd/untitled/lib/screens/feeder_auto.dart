@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:untitled/screens/mainpage.dart';
 import 'package:untitled/screens/auto_check.dart';
+
+import '../service/feeder_service.dart';
 
 int feedcounter = 0;
 
@@ -14,8 +17,7 @@ class FeederAuto extends StatefulWidget {
 class AutoScreen extends State<FeederAuto> {
   // db에 저장 된 시간이 있으면 불러오자
 
-  final AutoCheck autoCheck = AutoCheck();
-
+  final FeederService feederService = FeederService();
 
   TimeOfDay firstTime = TimeOfDay.now(); // 현재 시간 기준으로 시간대를 생성하는 생성자
   TimeOfDay secondTime = TimeOfDay.now();
@@ -23,24 +25,20 @@ class AutoScreen extends State<FeederAuto> {
   TimeOfDay fourthTime = TimeOfDay.now();
   TimeOfDay fifthTime = TimeOfDay.now();
 
-
   TextEditingController _firstFood = TextEditingController();
   TextEditingController _secondFood = TextEditingController();
   TextEditingController _thirdFood = TextEditingController();
   TextEditingController _fourthFood = TextEditingController();
   TextEditingController _fifthFood = TextEditingController();
 
-
-
-
   void _incrementCounter() {
-    if (feedcounter >= 0 && feedcounter < 5){
+    if (feedcounter >= 0 && feedcounter < 5) {
       setState(() {
         feedcounter++;
       });
     }
-
   }
+
   void _decrementCounter() {
     if (feedcounter > 0 && feedcounter < 6) {
       setState(() {
@@ -48,6 +46,7 @@ class AutoScreen extends State<FeederAuto> {
       });
     }
   }
+
   // AutoScreen();
   @override
   Widget build(BuildContext context) {
@@ -93,41 +92,46 @@ class AutoScreen extends State<FeederAuto> {
               ),
             ),
             Container(
-                width:300,
-                child:Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:[
-                      SizedBox(width:15),
-                      TextButton(
-                        onPressed: _incrementCounter,
-                        child: const Icon(Icons.add), // This trailing comma makes auto-formatting nicer for build methods.
-                      ),
-                      TextButton(
-                        onPressed: _decrementCounter,
-                        child: const Icon(Icons.remove), // This trailing comma makes auto-formatting nicer for build methods.
-                      ),
-                    ]
-                )
-              // child: Column(
-              //   children: [
-              //     Text('하루 2회',
-              //         style: TextStyle(
-              //           fontWeight: FontWeight.bold,
-              //           fontSize: 25,
-              //         )),
-              //   ],
-              // ),
-            ),
+                width: 300,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  SizedBox(width: 15),
+                  TextButton(
+                    onPressed: _incrementCounter,
+                    child: const Icon(Icons
+                        .add), // This trailing comma makes auto-formatting nicer for build methods.
+                  ),
+                  TextButton(
+                    onPressed: _decrementCounter,
+                    child: const Icon(Icons
+                        .remove), // This trailing comma makes auto-formatting nicer for build methods.
+                  ),
+                ])
+                // child: Column(
+                //   children: [
+                //     Text('하루 2회',
+                //         style: TextStyle(
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 25,
+                //         )),
+                //   ],
+                // ),
+                ),
             AbsorbPointer(
               absorbing: feedcounter < 1,
-              child:Container(
-                height:80,
+              child: Container(
+                height: 80,
                 padding: EdgeInsets.all(20),
                 margin: EdgeInsets.all(10),
                 width: 350,
                 decoration: BoxDecoration(
-                    color: feedcounter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-                    border: Border.all(color: feedcounter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+                    color: feedcounter < 1
+                        ? Color.fromARGB(220, 67, 67, 67)
+                        : Colors.white,
+                    border: Border.all(
+                        color: feedcounter < 1
+                            ? Color.fromARGB(220, 67, 67, 67)
+                            : Colors.pink)),
                 child: Row(
                   children: [
                     Text(
@@ -137,7 +141,9 @@ class AutoScreen extends State<FeederAuto> {
                     SizedBox(width: 5),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: feedcounter<1 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                            backgroundColor: feedcounter < 1
+                                ? Color.fromARGB(220, 67, 67, 67)
+                                : Colors.pink),
                         onPressed: () async {
                           final TimeOfDay? selectedTime = await showTimePicker(
                             // showTimePicker - context와 초기 시간 값 전달해야 함
@@ -151,11 +157,15 @@ class AutoScreen extends State<FeederAuto> {
                             });
                           }
                         },
-                        child:
-                        Text('시간선택', style: TextStyle(color: Colors.white))),
+                        child: Text('시간선택',
+                            style: TextStyle(color: Colors.white))),
                     SizedBox(width: 10),
                     Expanded(
                       child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp('[0-9]'))
+                          ],
                           controller: _firstFood,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
@@ -181,79 +191,95 @@ class AutoScreen extends State<FeederAuto> {
                 ),
               ),
             ),
-AbsorbPointer(
-  absorbing: feedcounter<2,
-  child:Container(
-    height:80,
-    padding: EdgeInsets.all(20),
-    margin: EdgeInsets.all(10),
-    width: 350,
-    decoration: BoxDecoration(
-      color: feedcounter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-        border: Border.all(color: feedcounter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
-    child: Row(
-      children: [
-        Text(
-          '${secondTime.hour}:${secondTime.minute}',
-          style: TextStyle(fontSize: 30),
-        ),
-        SizedBox(width: 5),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: feedcounter<2 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
-            onPressed: () async {
-              final TimeOfDay? selectedTime = await showTimePicker(
-                // showTimePicker - context와 초기 시간 값 전달해야 함
-                context: context,
-                initialTime: TimeOfDay(hour: 12, minute: 00),
-                // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
-              );
-              if (selectedTime != null) {
-                setState(() {
-                  secondTime = selectedTime;
-                });
-              }
-            },
-            child:
-            Text('시간선택', style: TextStyle(color: Colors.white))),
-        SizedBox(width: 10),
-        Expanded(
-          child: TextFormField(
-              controller: _secondFood,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(223, 197, 197, 197),
-                      )),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(223, 197, 197, 197),
-                      )))),
-        ),
-        SizedBox(width: 10),
-        Text(
-          'g',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-          ),
-        ),
-      ],
-    ),
-  ),
-),
             AbsorbPointer(
-              absorbing: feedcounter<3,
-              child:Container(
-                height:80,
+              absorbing: feedcounter < 2,
+              child: Container(
+                height: 80,
                 padding: EdgeInsets.all(20),
                 margin: EdgeInsets.all(10),
                 width: 350,
                 decoration: BoxDecoration(
-                    color: feedcounter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-                    border: Border.all(color: feedcounter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+                    color: feedcounter < 2
+                        ? Color.fromARGB(220, 67, 67, 67)
+                        : Colors.white,
+                    border: Border.all(
+                        color: feedcounter < 2
+                            ? Color.fromARGB(220, 67, 67, 67)
+                            : Colors.pink)),
+                child: Row(
+                  children: [
+                    Text(
+                      '${secondTime.hour}:${secondTime.minute}',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    SizedBox(width: 5),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: feedcounter < 2
+                                ? Color.fromARGB(220, 67, 67, 67)
+                                : Colors.pink),
+                        onPressed: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            // showTimePicker - context와 초기 시간 값 전달해야 함
+                            context: context,
+                            initialTime: TimeOfDay(hour: 12, minute: 00),
+                            // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
+                          );
+                          if (selectedTime != null) {
+                            setState(() {
+                              secondTime = selectedTime;
+                            });
+                          }
+                        },
+                        child: Text('시간선택',
+                            style: TextStyle(color: Colors.white))),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp('[0-9]'))
+                          ],
+                          controller: _secondFood,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )))),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      'g',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            AbsorbPointer(
+              absorbing: feedcounter < 3,
+              child: Container(
+                height: 80,
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.all(10),
+                width: 350,
+                decoration: BoxDecoration(
+                    color: feedcounter < 3
+                        ? Color.fromARGB(220, 67, 67, 67)
+                        : Colors.white,
+                    border: Border.all(
+                        color: feedcounter < 3
+                            ? Color.fromARGB(220, 67, 67, 67)
+                            : Colors.pink)),
                 child: Row(
                   children: [
                     Text(
@@ -263,7 +289,9 @@ AbsorbPointer(
                     SizedBox(width: 5),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: feedcounter<3 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                            backgroundColor: feedcounter < 3
+                                ? Color.fromARGB(220, 67, 67, 67)
+                                : Colors.pink),
                         onPressed: () async {
                           final TimeOfDay? selectedTime = await showTimePicker(
                             // showTimePicker - context와 초기 시간 값 전달해야 함
@@ -277,11 +305,15 @@ AbsorbPointer(
                             });
                           }
                         },
-                        child:
-                        Text('시간선택', style: TextStyle(color: Colors.white))),
+                        child: Text('시간선택',
+                            style: TextStyle(color: Colors.white))),
                     SizedBox(width: 10),
                     Expanded(
                       child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp('[0-9]'))
+                          ],
                           controller: _thirdFood,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
@@ -307,79 +339,95 @@ AbsorbPointer(
                 ),
               ),
             ),
-AbsorbPointer(
-  absorbing:feedcounter<4,
-  child:Container(
-    height:80,
-    padding: EdgeInsets.all(20),
-    margin: EdgeInsets.all(10),
-    width: 350,
-    decoration: BoxDecoration(
-        color: feedcounter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-        border: Border.all(color: feedcounter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
-    child: Row(
-      children: [
-        Text(
-          '${fourthTime.hour}:${fourthTime.minute}',
-          style: TextStyle(fontSize: 30),
-        ),
-        SizedBox(width: 5),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: feedcounter<4 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
-            onPressed: () async {
-              final TimeOfDay? selectedTime = await showTimePicker(
-                // showTimePicker - context와 초기 시간 값 전달해야 함
-                context: context,
-                initialTime: TimeOfDay(hour: 12, minute: 00),
-                // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
-              );
-              if (selectedTime != null) {
-                setState(() {
-                  fourthTime = selectedTime;
-                });
-              }
-            },
-            child:
-            Text('시간선택', style: TextStyle(color: Colors.white))),
-        SizedBox(width: 10),
-        Expanded(
-          child: TextFormField(
-              controller: _fourthFood,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(223, 197, 197, 197),
-                      )),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(223, 197, 197, 197),
-                      )))),
-        ),
-        SizedBox(width: 10),
-        Text(
-          'g',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-          ),
-        ),
-      ],
-    ),
-  ),
-),
             AbsorbPointer(
-              absorbing: feedcounter<5,
-              child:Container(
+              absorbing: feedcounter < 4,
+              child: Container(
+                height: 80,
                 padding: EdgeInsets.all(20),
                 margin: EdgeInsets.all(10),
                 width: 350,
-                height:80,
                 decoration: BoxDecoration(
-                    color: feedcounter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.white,
-                    border: Border.all(color: feedcounter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink)),
+                    color: feedcounter < 4
+                        ? Color.fromARGB(220, 67, 67, 67)
+                        : Colors.white,
+                    border: Border.all(
+                        color: feedcounter < 4
+                            ? Color.fromARGB(220, 67, 67, 67)
+                            : Colors.pink)),
+                child: Row(
+                  children: [
+                    Text(
+                      '${fourthTime.hour}:${fourthTime.minute}',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    SizedBox(width: 5),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: feedcounter < 4
+                                ? Color.fromARGB(220, 67, 67, 67)
+                                : Colors.pink),
+                        onPressed: () async {
+                          final TimeOfDay? selectedTime = await showTimePicker(
+                            // showTimePicker - context와 초기 시간 값 전달해야 함
+                            context: context,
+                            initialTime: TimeOfDay(hour: 12, minute: 00),
+                            // 최초 시간은 db에 저장 된 데이터가 있으면 불러오기
+                          );
+                          if (selectedTime != null) {
+                            setState(() {
+                              fourthTime = selectedTime;
+                            });
+                          }
+                        },
+                        child: Text('시간선택',
+                            style: TextStyle(color: Colors.white))),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp('[0-9]'))
+                          ],
+                          controller: _fourthFood,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(223, 197, 197, 197),
+                                  )))),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      'g',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            AbsorbPointer(
+              absorbing: feedcounter < 5,
+              child: Container(
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.all(10),
+                width: 350,
+                height: 80,
+                decoration: BoxDecoration(
+                    color: feedcounter < 5
+                        ? Color.fromARGB(220, 67, 67, 67)
+                        : Colors.white,
+                    border: Border.all(
+                        color: feedcounter < 5
+                            ? Color.fromARGB(220, 67, 67, 67)
+                            : Colors.pink)),
                 child: Row(
                   children: [
                     Text(
@@ -389,7 +437,9 @@ AbsorbPointer(
                     SizedBox(width: 5),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: feedcounter<5 ? Color.fromARGB(220, 67, 67, 67) : Colors.pink),
+                            backgroundColor: feedcounter < 5
+                                ? Color.fromARGB(220, 67, 67, 67)
+                                : Colors.pink),
                         onPressed: () async {
                           final TimeOfDay? selectedTime = await showTimePicker(
                             // showTimePicker - context와 초기 시간 값 전달해야 함
@@ -403,11 +453,15 @@ AbsorbPointer(
                             });
                           }
                         },
-                        child:
-                        Text('시간선택', style: TextStyle(color: Colors.white))),
+                        child: Text('시간선택',
+                            style: TextStyle(color: Colors.white))),
                     SizedBox(width: 10),
                     Expanded(
                       child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp('[0-9]'))
+                          ],
                           controller: _fifthFood,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
@@ -433,7 +487,6 @@ AbsorbPointer(
                 ),
               ),
             ),
-
 
             // Container(
             //   padding: EdgeInsets.all(30),
@@ -464,38 +517,51 @@ AbsorbPointer(
                 SizedBox(width: 20),
                 TextButton(
                   style: TextButton.styleFrom(backgroundColor: Colors.pink),
-                  onPressed: () async{
-
+                  onPressed: () async {
                     int? _firstmeal;
                     int? _secondmeal;
                     int? _thirdmeal;
                     int? _fourthmeal;
                     int? _fifthmeal;
 
-                    if (feedcounter == 1 || feedcounter == 2 || feedcounter == 3 ||
-                        feedcounter == 4 || feedcounter == 5) {
+                    if (feedcounter == 1 ||
+                        feedcounter == 2 ||
+                        feedcounter == 3 ||
+                        feedcounter == 4 ||
+                        feedcounter == 5) {
                       _firstmeal = int.parse(_firstFood.text);
-                    } else { _firstmeal = null; }
+                    } else {
+                      _firstmeal = null;
+                    }
 
-                    if (feedcounter == 2 || feedcounter == 3 ||
-                        feedcounter == 4 || feedcounter == 5) {
+                    if (feedcounter == 2 ||
+                        feedcounter == 3 ||
+                        feedcounter == 4 ||
+                        feedcounter == 5) {
                       _secondmeal = int.parse(_secondFood.text);
-                    } else { _secondmeal = null; }
+                    } else {
+                      _secondmeal = null;
+                    }
 
                     if (feedcounter == 3 ||
-                        feedcounter == 4 || feedcounter == 5) {
+                        feedcounter == 4 ||
+                        feedcounter == 5) {
                       _thirdmeal = int.parse(_thirdFood.text);
-                    } else { _thirdmeal = null; }
+                    } else {
+                      _thirdmeal = null;
+                    }
 
                     if (feedcounter == 4 || feedcounter == 5) {
                       _fourthmeal = int.parse(_fourthFood.text);
-                    } else { _fourthmeal = null; }
+                    } else {
+                      _fourthmeal = null;
+                    }
 
                     if (feedcounter == 5) {
                       _fifthmeal = int.parse(_fifthFood.text);
-                    } else { _fifthmeal = null; }
-
-
+                    } else {
+                      _fifthmeal = null;
+                    }
 
                     // if (_firstFood.text.isNotEmpty) {
                     //   _firstmeal = int.parse(_firstFood.text);
@@ -525,10 +591,18 @@ AbsorbPointer(
 
                     // DateTime firstCheck = DateTime(0,0,0, firstTime.hour, firstTime.minute);
 
-                    await autoCheck.auto(context,
-                        firstTime, _firstmeal, secondTime, _secondmeal, thirdTime, _thirdmeal,
-                        fourthTime, _fourthmeal, fifthTime, _fifthmeal);
-
+                    await feederService.autoFeed(
+                        context,
+                        firstTime,
+                        _firstmeal,
+                        secondTime,
+                        _secondmeal,
+                        thirdTime,
+                        _thirdmeal,
+                        fourthTime,
+                        _fourthmeal,
+                        fifthTime,
+                        _fifthmeal);
 
                     Navigator.of(context).pop();
                     Navigator.push(
@@ -544,7 +618,6 @@ AbsorbPointer(
                 ),
               ],
             ),
-
           ],
         ),
       ),
@@ -563,9 +636,9 @@ AbsorbPointer(
               Navigator.pop(context);
               Navigator.pushNamed(context, '/catview');
               break;
-          // default:
-          //   Navigator.pushNamed(context, '/health');
-          // ***디폴트 경로 설정: 필요할 경우 추가하기***
+            // default:
+            //   Navigator.pushNamed(context, '/health');
+            // ***디폴트 경로 설정: 필요할 경우 추가하기***
           }
         },
         items: [
