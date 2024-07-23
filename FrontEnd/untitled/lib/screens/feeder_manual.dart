@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:untitled/screens/mainpage.dart';
+import 'package:untitled/service/feeder_service.dart';
 
-class FeederManual extends StatelessWidget {
-  final String screenData;
+import 'logincheck.dart';
 
-  FeederManual({required this.screenData});
+class FeederManual extends StatefulWidget {
+  const FeederManual({super.key});
+
+  @override
+  State<FeederManual> createState() => ManualScreen();
+}
+
+class ManualScreen extends State<FeederManual> {
+
+  final FeederService feederService = FeederService();
+  TextEditingController manualController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 70,
         title: Text('CatIoT',
             style: TextStyle(
@@ -56,6 +69,12 @@ class FeederManual extends StatelessWidget {
                       children: [
                         Expanded(
                           child: TextField(
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9]'))
+                              ],
+                              controller: manualController,
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -84,20 +103,42 @@ class FeederManual extends StatelessWidget {
                 ],
               ),
             ),
-            TextButton(
-              style: TextButton.styleFrom(backgroundColor: Colors.pink),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainScreen(),
-                    ));
-              },
-              child: Text(
-                '배급하기',
-                style: TextStyle(color: Colors.white),
-              ),
+            // 취소 버튼 추가, 메인화면으로 이동
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(backgroundColor: Colors.grey),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    '취소',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(width: 20),
+                TextButton(
+                  style: TextButton.styleFrom(backgroundColor: Colors.pink),
+                  onPressed: () async {
+                    // await manualCheck.manual(context, manualController.text);
+                    await feederService.manualFeed(
+                        context, CatInfo![0]['catId'], manualController.text);
+                    print(manualController.text);
+                    // Navigator.of(context).pop();
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => MainScreen(),
+                    //     ));
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    '배급하기',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -106,12 +147,17 @@ class FeederManual extends StatelessWidget {
         onTap: (int index) {
           switch (index) {
             case 0:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/health');
               break;
             case 1:
-              Navigator.pushNamed(context, '/catview');
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/mainpage');
+              break;
             case 2:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/catview');
+              break;
             // default:
             //   Navigator.pushNamed(context, '/health');
             // ***디폴트 경로 설정: 필요할 경우 추가하기***
@@ -119,9 +165,9 @@ class FeederManual extends StatelessWidget {
         },
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.medical_services), label: '건강 체크'),
-          BottomNavigationBarItem(icon: Icon(Icons.videocam), label: '고양이 보기'),
-          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 정보?'),
+              icon: Icon(Icons.medical_services), label: '고양이 건강 체크'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '메인 페이지'),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 보러가기'),
         ],
       ),
     );

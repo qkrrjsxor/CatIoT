@@ -4,11 +4,12 @@ import 'package:video_player/video_player.dart';
 
 class CatScreen extends StatefulWidget {
   const CatScreen({super.key});
+
   @override
   State<CatScreen> createState() => _MyCatState();
-  // final String Urls = '!!';
-  // controller = VideoPlayerController.Urls(Uri.parse())
-  // _MyCatState createState() => _MyCatState();
+// final String Urls = '!!';
+// controller = VideoPlayerController.Urls(Uri.parse())
+// _MyCatState createState() => _MyCatState();
 }
 
 class _MyCatState extends State<CatScreen> {
@@ -23,6 +24,8 @@ class _MyCatState extends State<CatScreen> {
         'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'));
 
     _initializeVideoPlayerFuture = _controller.initialize();
+
+    _controller.play();
   }
 
   @override
@@ -36,6 +39,7 @@ class _MyCatState extends State<CatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 70,
         title: Text('CatIoT',
             style: TextStyle(
@@ -72,20 +76,20 @@ class _MyCatState extends State<CatScreen> {
         },
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-            } else {
-              _controller.play();
-            }
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     setState(() {
+      //       if (_controller.value.isPlaying) {
+      //         _controller.pause();
+      //       } else {
+      //         _controller.play();
+      //       }
+      //     });
+      //   },
+      //   child: Icon(
+      //     _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+      //   ),
+      // ),
 
       // Center(
       //   child: Column(
@@ -132,12 +136,17 @@ class _MyCatState extends State<CatScreen> {
         onTap: (int index) {
           switch (index) {
             case 0:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/health');
               break;
             case 1:
-              Navigator.pushNamed(context, '/catview');
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/mainpage');
+              break;
             case 2:
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/catview');
+              break;
             // default:
             //   Navigator.pushNamed(context, '/health');
             // ***디폴트 경로 설정: 필요할 경우 추가하기***
@@ -145,9 +154,9 @@ class _MyCatState extends State<CatScreen> {
         },
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.medical_services), label: '건강 체크'),
-          BottomNavigationBarItem(icon: Icon(Icons.videocam), label: '고양이 보기'),
-          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 정보?'),
+              icon: Icon(Icons.medical_services), label: '고양이 건강 체크'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '메인 페이지'),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: '고양이 보러가기'),
         ],
       ),
     );

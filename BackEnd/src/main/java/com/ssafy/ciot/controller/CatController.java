@@ -19,4 +19,5 @@ public class CatController {
 		this.catService = catService;
 	}
 	
+	// 고양이 등록
 }

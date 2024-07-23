@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.ciot.model.dao.MealDao">
+
+	<!-- 먹은 양 저장 -->
+	<insert id="insertMeal" parameterType="MealEaten">
+		INSERT INTO meal_eaten (cat_id, meal_date, meal_amount)
+		VALUES (#{catId}, #{mealDate}, #{mealAmount})
+	</insert>
+	
+	<!-- 스케줄 저장 -->
+	<insert id="insertSchedule" parameterType="MealSchedule">
+        INSERT INTO meal_schedule (
+            cat_id, schedule_count,
+            schedule_time1, schedule_time2, schedule_time3, schedule_time4, schedule_time5,
+            schedule_amount1, schedule_amount2, schedule_amount3, schedule_amount4, schedule_amount5
+        ) VALUES (
+            #{catId}, #{scheduleCount},
+            #{scheduleTime1}, #{scheduleTime2}, #{scheduleTime3}, #{scheduleTime4}, #{scheduleTime5},
+            #{scheduleAmount1}, #{scheduleAmount2}, #{scheduleAmount3}, #{scheduleAmount4}, #{scheduleAmount5}
+        )
+    </insert>
+    
+    <!-- 스케줄 업데이트 -->
+    <update id="updateSchedule">
+    	UPDATE meal_schedule
+    	SET 
+	        schedule_count = #{scheduleCount},
+	        schedule_time1 = #{scheduleTime1},
+	        schedule_time2 = #{scheduleTime2},
+	        schedule_time3 = #{scheduleTime3},
+	        schedule_time4 = #{scheduleTime4},
+	        schedule_time5 = #{scheduleTime5},
+	        schedule_amount1 = #{scheduleAmount1},
+	        schedule_amount2 = #{scheduleAmount2},
+	        schedule_amount3 = #{scheduleAmount3},
+	        schedule_amount4 = #{scheduleAmount4},
+	        schedule_amount5 = #{scheduleAmount5}
+	    WHERE cat_id = #{catId}
+    </update>
+    
+    <!-- 스케줄 조회 -->
+    <select id="selectScheduleByCatId" parameterType="int">
+    	SELECT * FROM meal_schedule
+    	WHERE cat_id = #{catId}
+    </select>
+    
+    <!-- 배급 내역 저장 -->
+    <insert id="insertFeed">
+    	INSERT INTO meal_feed (
+	        cat_id, feed_date, feed_amount
+	    ) VALUES (
+	        #{catId}, #{mealDate}, #{mealAmount}
+	    )
+    </insert>
+</mapper>
