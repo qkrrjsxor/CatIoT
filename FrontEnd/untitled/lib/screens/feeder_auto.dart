@@ -31,6 +31,8 @@ class AutoScreen extends State<FeederAuto> {
   TextEditingController _fourthFood = TextEditingController();
   TextEditingController _fifthFood = TextEditingController();
 
+
+
   void _incrementCounter() {
     if (feedcounter >= 0 && feedcounter < 5) {
       setState(() {
@@ -46,7 +48,6 @@ class AutoScreen extends State<FeederAuto> {
       });
     }
   }
-
   // AutoScreen();
   @override
   Widget build(BuildContext context) {
@@ -135,10 +136,10 @@ class AutoScreen extends State<FeederAuto> {
                 child: Row(
                   children: [
                     Text(
-                      '${firstTime.hour}:${firstTime.minute}',
-                      style: TextStyle(fontSize: 30),
-                    ),
-                    SizedBox(width: 5),
+                        '${firstTime.hour.toString().padLeft(2,'0')}:${firstTime.minute.toString().padLeft(2,'0')}',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    SizedBox(width: 10),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: feedcounter < 1
@@ -208,11 +209,12 @@ class AutoScreen extends State<FeederAuto> {
                             : Colors.pink)),
                 child: Row(
                   children: [
-                    Text(
-                      '${secondTime.hour}:${secondTime.minute}',
-                      style: TextStyle(fontSize: 30),
-                    ),
-                    SizedBox(width: 5),
+                      Text(
+                        '${secondTime.hour.toString().padLeft(2,'0')}:${secondTime.minute.toString().padLeft(2,'0')}',
+                        style: TextStyle(fontSize: 30),
+                      ),
+
+                    SizedBox(width: 10),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: feedcounter < 2
@@ -283,10 +285,10 @@ class AutoScreen extends State<FeederAuto> {
                 child: Row(
                   children: [
                     Text(
-                      '${thirdTime.hour}:${thirdTime.minute}',
+                      '${thirdTime.hour.toString().padLeft(2,'0')}:${thirdTime.minute.toString().padLeft(2,'0')}',
                       style: TextStyle(fontSize: 30),
                     ),
-                    SizedBox(width: 5),
+                    SizedBox(width: 10),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: feedcounter < 3
@@ -357,10 +359,10 @@ class AutoScreen extends State<FeederAuto> {
                 child: Row(
                   children: [
                     Text(
-                      '${fourthTime.hour}:${fourthTime.minute}',
+                      '${fourthTime.hour.toString().padLeft(2,'0')}:${fourthTime.minute.toString().padLeft(2,'0')}',
                       style: TextStyle(fontSize: 30),
                     ),
-                    SizedBox(width: 5),
+                    SizedBox(width: 10),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: feedcounter < 4
@@ -431,10 +433,10 @@ class AutoScreen extends State<FeederAuto> {
                 child: Row(
                   children: [
                     Text(
-                      '${fifthTime.hour}:${fifthTime.minute}',
+                      '${fifthTime.hour.toString().padLeft(2,'0')}:${fifthTime.minute.toString().padLeft(2,'0')}',
                       style: TextStyle(fontSize: 30),
                     ),
-                    SizedBox(width: 5),
+                    SizedBox(width: 10),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: feedcounter < 5
