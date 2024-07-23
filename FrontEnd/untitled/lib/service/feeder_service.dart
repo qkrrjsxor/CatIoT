@@ -11,6 +11,7 @@ import '../screens/mainpage.dart';
 class FeederService {
   final String baseUrl = 'http://10.0.2.2:8080/api/meal';
 
+  // 수동 급여
   Future<void> manualFeed(
       BuildContext context, int catId, String mealAmount) async {
     int feedAmount = int.parse(mealAmount);
@@ -31,6 +32,7 @@ class FeederService {
     }
   }
 
+  // 자동 급여
   Future<void> autoFeed(
       BuildContext context, scheduleCount,
       _firsttime, _firstmeal, _secondtime, _secondmeal, _thirdtime, _thirdmeal,

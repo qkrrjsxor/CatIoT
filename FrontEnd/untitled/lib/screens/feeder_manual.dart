@@ -131,6 +131,7 @@ class ManualScreen extends State<FeederManual> {
                     //     MaterialPageRoute(
                     //       builder: (context) => MainScreen(),
                     //     ));
+                    Navigator.of(context).pop();
                   },
                   child: Text(
                     '배급하기',
