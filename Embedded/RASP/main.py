@@ -6,12 +6,12 @@ import threading
 import schedule
 from datetime import datetime
 
+# 2024-07-24
 # 사용자 지정 라이브러리
 import network_config
 
-# 추가해야 할 거 : 매 시간마다 밥그릇의 무게값을 서버로 전송 -> 쓰레딩 + 스케쥴링 라이브러리로 구현
-#
 def main():
+    # schedule
     # STM thread
     STM = threading.Thread(target=stm_thread())
     STM.start()
@@ -32,16 +32,29 @@ def stm_thread():
     client_socket, client_address = server_socket.accept()
     print(f"{client_address}에서 연결되었습니다.")
 
+    # 기본 셋팅
+    setting_device(client_socket)
+
     try:
         while True:
             # 데이터 송신 -> ACK로 OK 받기 전 까지 2초 간격으로 10차례 보내기
-            time.sleep(15)
-            # 데이터 송신
-            send_STM32(client_socket, "100")
+            # 스케쥴러 실행, 등록된 시간이 되면 특정 행동 수행~!
+            # 1. 시간이 되면, 데이터 전송
+            # 2. 설정한 시간이 되면, 배급 신호 송신
+            schedule.run_pending()
 
-            time.sleep(15)
+            # Test :
+            jobs = schedule.get_jobs()
+            for job in jobs:
+                print(f"예약된 작업: {job}")
+            time.sleep(1)
+
+
+            # 데이터 송신
+            # send_STM32(client_socket, "100")
+
             # 밥그릇 무게 데이터 요청 신호 송신
-            send_STM32(client_socket, "1000")
+            # send_STM32(client_socket, "1000")
 
     finally:
         # 연결 종료
@@ -76,6 +89,29 @@ def meal_send_data(data):
     print(f"Status Code: {response.status_code}")
     print(f"Response Text: {response.text}")
 
+
+def setting_device(client_socket):
+    count = 0
+
+    # 10초 동안 기다려보자 ~~!
+    while(count <= 10):
+
+        response = requests.get(network_config.MEAL_URL)
+        if (response.status_code == 200):
+            # 시간값 저장
+            time_data = response.json()
+            for i in range(1, time_data["schedule_count"] + 1, 1):
+                set_time = time_data[f"schedule_time{i}"][0:6]
+                (schedule.every()
+                 .day.at(set_time)
+                 .do(send_STM32(client_socket, time_data[f"schedule_amount{i}"])))
+
+            return 1
+
+        time.sleep(1)
+        count += 1
+    # 제대로 연결 되지 않았을 경우 -1
+    return -1
 
 # send_STM32
 def send_STM32(client_socket, message):
