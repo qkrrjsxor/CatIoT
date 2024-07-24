@@ -1,3 +1,4 @@
+import functools
 import socket
 import time
 import requests
@@ -13,7 +14,7 @@ import network_config
 def main():
     # schedule
     # STM thread
-    STM = threading.Thread(target=stm_thread())
+    STM = threading.Thread(target=stm_thread)
     STM.start()
 
 def stm_thread():
@@ -44,9 +45,9 @@ def stm_thread():
             schedule.run_pending()
 
             # Test :
-            jobs = schedule.get_jobs()
-            for job in jobs:
-                print(f"예약된 작업: {job}")
+            # jobs = schedule.get_jobs()
+            # for job in jobs:
+            #     print(f"예약된 작업: {job}")
             time.sleep(1)
 
 
@@ -96,15 +97,19 @@ def setting_device(client_socket):
     # 10초 동안 기다려보자 ~~!
     while(count <= 10):
 
-        response = requests.get(network_config.MEAL_URL)
+        response = requests.get(network_config.MEAL_SCHEDULE_URL)
         if (response.status_code == 200):
             # 시간값 저장
             time_data = response.json()
-            for i in range(1, time_data["schedule_count"] + 1, 1):
-                set_time = time_data[f"schedule_time{i}"][0:6]
-                (schedule.every()
-                 .day.at(set_time)
-                 .do(send_STM32(client_socket, time_data[f"schedule_amount{i}"])))
+            print(time_data)
+
+            for i in range(1, time_data["scheduleCount"] + 1, 1):
+                set_time = time_data[f"scheduleTime{i}"]
+                schedule.every().day.at(set_time).do(functools.partial(send_STM32, client_socket, str(time_data[f"scheduleAmount{i}"])))
+
+                # test : 예약해보기
+            # schedule.every().day.at("14:14").do(functools.partial(send_STM32, client_socket, "100"))
+            # schedule.every().day.at("14:15").do(functools.partial(send_STM32, client_socket, "1000"))
 
             return 1
 
