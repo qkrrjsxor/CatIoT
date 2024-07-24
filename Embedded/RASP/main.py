@@ -6,6 +6,7 @@ import threading
 import schedule
 from datetime import datetime
 
+# 2024-07-24
 # 사용자 지정 라이브러리
 import network_config
 
