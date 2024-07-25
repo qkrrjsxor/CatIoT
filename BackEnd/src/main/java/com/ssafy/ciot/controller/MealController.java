@@ -1,8 +1,13 @@
 package com.ssafy.ciot.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,7 +25,6 @@ import org.springframework.web.client.RestTemplate;
 import com.ssafy.ciot.model.dto.MealEaten;
 import com.ssafy.ciot.model.dto.MealFeed;
 import com.ssafy.ciot.model.dto.MealSchedule;
-import com.ssafy.ciot.model.dto.User;
 import com.ssafy.ciot.model.service.MealService;
 
 
@@ -28,6 +32,7 @@ import com.ssafy.ciot.model.service.MealService;
 @RestController
 @RequestMapping("/api/meal")
 public class MealController {
+//public class MealController implements CommandLineRunner {
 
 	// service 의존성
 	private MealService mealService;
@@ -37,7 +42,7 @@ public class MealController {
 	@Autowired
     private RestTemplate restTemplate;
 	
-	String raspberryPiUrl = "192.168.4.2:500000";
+	String raspberryPiUrl = "http://192.168.4.2:500000";
 	
 	// 수동 급여
 	@PostMapping("/manualfeed")
@@ -48,17 +53,17 @@ public class MealController {
 		int mealAmount = mealFeed.getFeedAmount();
 		
 		System.out.println(mealDate);
-		System.out.println("catId : " + catId + " mealAmount : " + mealAmount);
+		System.out.println("feedlId: " + mealFeed.getFeedId() + " mealDate : " + mealFeed.getFeedDate() + " catId : " + catId + " mealAmount : " + mealAmount);
 		
 		// 배급 내역 저장
 		int result = mealService.insertFeed(catId, mealDate ,mealAmount);
 		
-		// 라즈베리파이로 배급 정보 보내기
-		String url = raspberryPiUrl+"/api";
+		// 라즈베리파이로 배급 정보 보내기 ------------------------------------------------
+		String url = "http://localhost:12345";
 		// httpheader 설정
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		// httpbody 설정
+		// httpbody 설정s
 		HttpEntity<MealFeed> entity = new HttpEntity<>(mealFeed, headers);
 		// 라즈베리파이로 POST 요청 전송
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
@@ -128,15 +133,36 @@ public class MealController {
 		return new ResponseEntity<> ("라즈베리파이 통신 테스트", HttpStatus.OK);
 	}
 	
-	//test
-	@GetMapping("eaten")
-	public User test() {
-		User user = new User();
-		
-		user.setUserId("ssafy");
-		user.setPassword("1234");
-		user.setUserName("ssafyKim");
-		return user;
-	}
-	
+//	// 소켓통신 test
+//	@Override
+//    public void run(String... args) {
+//        String host = "127.0.0.1";  // 로컬호스트
+//        int port = 12345;
+//
+//        System.out.println("시작");
+//        try (Socket socket = new Socket(host, port);
+//             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+//             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+//
+//        	System.out.println("while문 시작");
+//            while (true) {
+//                // 서버로 메시지 전송
+//                out.println("Hello from Spring Boot");
+//
+//                // 서버로부터 응답 수신
+//                String response = in.readLine();
+//                if (response != null) {
+//                    System.out.println("Received from server: " + response);
+//                } else {
+//                    System.out.println("No response from server");
+//                }
+//
+//                Thread.sleep(3000);
+//                System.out.println("3초");
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

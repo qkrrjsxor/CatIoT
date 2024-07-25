@@ -8,13 +8,13 @@
 
 	<!-- 고양이 선택 -->
 	<select id="selectCatByCatId" parameterType="int" resultType="Cat">
-		SELECT * FROM Cat
+		SELECT * FROM cat
 		WHERE cat_id = #{catId}
 	</select>
 	
 	<!-- 고양이 전부 선택 -->
 	<select id="selectCatAll" parameterType="String" resultType="Cat">
-		SELECT * FROM Cat
+		SELECT * FROM cat
 		WHERE user_id = #{userId}
 	</select>
 
