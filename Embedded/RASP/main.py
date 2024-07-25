@@ -8,7 +8,7 @@ import schedule
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-# 2024-07-24
+# 2024-07-25 14:00
 # 사용자 지정 라이브러리
 import network_config
 
