@@ -138,5 +138,21 @@ public class MealController {
 		user.setUserName("ssafyKim");
 		return user;
 	}
+
+
+
+
+
+
+
+	// j 테스트
+	@PostMapping("/schedulecheck")
+	public ResponseEntity<?> abcd(@RequestBody MealEaten mealeaten){
+		
+		int catId = mealeaten.getCatId();
+		int result = 1;
+		
+		return new ResponseEntity<> ("111231214" + response.getBody(), HttpStatus.OK);
+	}
 	
 }
