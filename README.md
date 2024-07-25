@@ -1,5 +1,5 @@
 # CatIoT Project
-![image](https://github.com/ParkSeungHeun/CatIoT/assets/118339189/849ad9be-3b8f-4b2d-bdcb-3d3d356c449c)
+![image](https://github.com/user-attachments/assets/5190eb63-3d0a-4e6a-a171-eee48556a6f3)
 
 ## 프로젝트 구성원
 - 팀장 : 성열민
