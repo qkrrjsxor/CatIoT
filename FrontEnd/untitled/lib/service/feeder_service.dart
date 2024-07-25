@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/feeder_auto.dart';
 import '../screens/logincheck.dart';
@@ -47,6 +48,28 @@ class FeederService {
 
     print(_firsttime);
     print(_firstTotalTime);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("scheduleCount", scheduleCount);
+    if(scheduleCount >= 5){
+      await prefs.setString("scheduleTime5", _fifthTotalTime);
+      await prefs.setInt("scheduleAmount5", _fifthmeal);
+    }
+    if(scheduleCount >= 4){
+      await prefs.setString("scheduleTime4", _fourthTotalTime);
+      await prefs.setInt("scheduleAmount4", _fourthmeal);
+    }
+    if(scheduleCount >= 3){
+      await prefs.setString("scheduleTime3", _thirdTotalTime);
+      await prefs.setInt("scheduleAmount3", _thirdmeal);
+    }
+    if(scheduleCount >= 2){
+      await prefs.setString("scheduleTime2", _secondTotalTime);
+      await prefs.setInt("scheduleAmount2", _secondmeal);
+    }
+    if(scheduleCount >= 1){
+      await prefs.setString("scheduleTime1", _firstTotalTime);
+      await prefs.setInt("scheduleAmount1", _firstmeal);
+    }
 
     try {
 

@@ -18,7 +18,7 @@ public interface MealDao {
 	public int updateSchedule(MealSchedule mealSchedule);
 
 	// catId로 스케쥴 조회
-	public int selectScheduleByCatId(int catId);
+	public MealSchedule selectScheduleByCatId(int catId);
 
 	// 급여 기록 저장
 	public int insertFeed(@Param("catId") int catId, @Param("mealDate") LocalDateTime mealDate, @Param("mealAmount") int mealAmount);

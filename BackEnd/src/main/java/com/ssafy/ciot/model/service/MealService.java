@@ -38,7 +38,7 @@ public class MealService {
 	}
 
 	// catId로 스케쥴 정보 조회
-	public int getScheduleByCatId(int catId) {
+	public MealSchedule getScheduleByCatId(int catId) {
 		return mealDao.selectScheduleByCatId(catId);
 	}
 
