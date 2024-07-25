@@ -2,7 +2,7 @@
 RASP_IP = '192.168.4.2'
 PORT = 8080
 
-# 수동 배급 요청 및
+# 수동 배급 요청 및 서버 신호 전용 포트
 SERVER_COMMUNICATION_PORT = 50000
 
 # SERVER

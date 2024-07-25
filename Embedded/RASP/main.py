@@ -14,9 +14,41 @@ import network_config
 def main():
     # schedule
     # STM thread
-    STM = threading.Thread(target=stm_thread)
-    STM.start()
+    stm = threading.Thread(target=stm_thread)
+    stm.start()
 
+    # SERVER thread
+    server = threading.Thread(target=server_thread)
+    server.start()
+
+def server_thread():
+    HOST = network_config.RASP_IP  # 모든 인터페이스에서 수신
+    PORT = network_config.SERVER_COMMUNICATION_PORT  # SERVER 에서 연결할 포트
+
+    # 소켓 생성
+    while True:
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.bind((HOST, PORT))
+        server_socket.listen(1)
+
+        print(f"{HOST}:{PORT}에서 서버 명령 대기 중입니다.")
+
+        # 클라이언트 연결 수락
+        client_socket, client_address = server_socket.accept()
+        print(f"{client_address}에서 연결되었습니다.")
+
+        try:
+            while True:
+                # TODO : 서버에서 명령을 받고, STM에 데이터를 보내는 것과 스케줄 변경 기능 구현 예정
+                print("서버 연결 GOAT")
+                time.sleep(1)
+
+
+        finally:
+            # 연결 종료
+            client_socket.close()
+            server_socket.close()
+            print("서버가 종료되었습니다.")
 def stm_thread():
     # 서버 설정
     HOST = network_config.RASP_IP  # 모든 인터페이스에서 수신
@@ -27,14 +59,15 @@ def stm_thread():
     server_socket.bind((HOST, PORT))
     server_socket.listen(1)
 
-    print(f"서버가 {HOST}:{PORT}에서 대기 중입니다.")
+    print(f"{HOST}:{PORT}에서 STM32 연결 대기 중입니다.")
 
     # 클라이언트 연결 수락
     client_socket, client_address = server_socket.accept()
-    print(f"{client_address}에서 연결되었습니다.")
+    print(f"STM32 : {client_address}에 연결되었습니다.")
 
     # 기본 셋팅
     setting_device(client_socket)
+    reserve_send_data(client_socket)
 
     try:
         while True:
@@ -79,6 +112,7 @@ def receive_data(client_socket, buffer_size=1024, timeout=5):
 
 
 # Rasp -> Server
+# HTTP POST -> SERVER : 현재 밥그릇 무게 데이터 전송
 def meal_send_data(data):
 
     headers = {
@@ -91,6 +125,7 @@ def meal_send_data(data):
     print(f"Response Text: {response.text}")
 
 
+# 급여 간격 설정
 def setting_device(client_socket):
     count = 0
 
@@ -155,6 +190,16 @@ def send_STM32(client_socket, message):
                 print(data)
                 break
             count += 1
+
+# 매 시 정각에 밥그릇 무게 측정 후 서버로 전송
+def reserve_send_data(client_socket):
+    for i in range(0, 24, 1):
+        if (i < 10):
+            schedule.every().day.at(f"0{i}:00").do(functools.partial(send_STM32, client_socket, "1000"))
+        else:
+            schedule.every().day.at(f"{i}:00").do(functools.partial(send_STM32, client_socket, "1000"))
+
+    # print("OK GOAT")
 
 if __name__ == '__main__':
     main()
