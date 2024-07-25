@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/screens/mainpage.dart';
 
 import '../service/feeder_service.dart';
@@ -17,11 +18,12 @@ class AutoScreen extends State<FeederAuto> {
   // db에 저장 된 시간이 있으면 불러오자
   final FeederService feederService = FeederService();
 
-  TimeOfDay firstTime = TimeOfDay.now(); // 현재 시간 기준으로 시간대를 생성하는 생성자
-  TimeOfDay secondTime = TimeOfDay.now();
-  TimeOfDay thirdTime = TimeOfDay.now();
-  TimeOfDay fourthTime = TimeOfDay.now();
-  TimeOfDay fifthTime = TimeOfDay.now();
+
+  TimeOfDay firstTime = TimeOfDay(hour: 12, minute: 0); // 현재 시간 기준으로 시간대를 생성하는 생성자
+  TimeOfDay secondTime = TimeOfDay(hour: 12, minute: 0);
+  TimeOfDay thirdTime = TimeOfDay(hour: 12, minute: 0);
+  TimeOfDay fourthTime = TimeOfDay(hour: 12, minute: 0);
+  TimeOfDay fifthTime = TimeOfDay(hour: 12, minute: 0);
 
   TextEditingController _firstFood = TextEditingController();
   TextEditingController _secondFood = TextEditingController();
@@ -29,8 +31,58 @@ class AutoScreen extends State<FeederAuto> {
   TextEditingController _fourthFood = TextEditingController();
   TextEditingController _fifthFood = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadSchedule();
+  }
 
+  // 스케줄 로드
+  _loadSchedule() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // firstTime = stringToTimeOfDay(prefs.getString("scheduleTime1"));
+      try{
+        feedcounter = prefs.getInt("scheduleCount")!;
+      }catch(error){
+        feedcounter = 0;
+      }
 
+      if(feedcounter == 0){
+
+      }else {
+        if(feedcounter >= 1){
+          firstTime = stringToTimeOfDay(prefs.getString("scheduleTime1")!);
+          _firstFood.text = prefs.getInt("scheduleAmount1").toString();
+        }
+        if(feedcounter >= 2){
+          secondTime = stringToTimeOfDay(prefs.getString("scheduleTime2")!);
+          _secondFood.text = prefs.getInt("scheduleAmount2").toString();
+        }
+        if(feedcounter >= 3){
+          thirdTime = stringToTimeOfDay(prefs.getString("scheduleTime3")!);
+          _thirdFood.text = prefs.getInt("scheduleAmount3").toString();
+        }
+        if(feedcounter >= 4){
+          fourthTime = stringToTimeOfDay(prefs.getString("scheduleTime4")!);
+          _fourthFood.text = prefs.getInt("scheduleAmount4").toString();
+        }
+        if(feedcounter >= 5){
+          fifthTime = stringToTimeOfDay(prefs.getString("scheduleTime5")!);
+          _fifthFood.text = prefs.getInt("scheduleAmount5").toString();
+        }
+     }
+    });
+  }
+
+  // string을 TimeOfDay로 변환
+  TimeOfDay stringToTimeOfDay(String timeString) {
+    final parts = timeString.split(":");
+    final hour = int.parse(parts[0]);
+    final minute = int.parse(parts[1]);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+  
   void _incrementCounter() {
     if (feedcounter >= 0 && feedcounter < 5) {
       setState(() {
