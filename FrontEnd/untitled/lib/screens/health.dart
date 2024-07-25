@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/mainpage.dart';
 import 'package:untitled/screens/logincheck.dart';
-
+import 'package:untitled/service/schedule_service.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Health extends StatefulWidget {
@@ -59,15 +59,20 @@ class HealthScreen extends State<Health> {
       Event(title: '14일 배변', record: '2회'),
       Event(title: '14일 건강', record: '보통'),
     ],
-    DateTime(2024, 7, 27): [
-      Event(title: '27일 식사', record: '3회'),
-      Event(title: '27일 배변', record: '1회'),
-      Event(title: '27일 건강', record: '아주 좋음'),
+    DateTime(2024, 7, 28): [
+      Event(title: '28일 식사', record: '3회'),
+      Event(title: '28일 배변', record: '1회'),
+      Event(title: '28일 건강', record: '아주 좋음'),
     ],
   };
+  final ScheduleService scheduleService = ScheduleService();
+  // TextEditingController manualController = TextEditingController();
 
-  // 실행 안 되고 있음 최초에서만 실행
+
   List<Event> _getEventsForDay(DateTime _selectedDay) {
+    scheduleService.schedulecheck(
+        context, CatInfo![0]['catId'], '2024-07-27');
+
     return kEvents[DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)] ?? [];
   }
 

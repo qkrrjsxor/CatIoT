@@ -659,11 +659,11 @@ class AutoScreen extends State<FeederAuto> {
                         _fifthmeal);
 
                     Navigator.of(context).pop();
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => MainScreen(),
-                    //     ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainScreen(),
+                        ));
                   },
                   child: Text(
                     '설정하기',

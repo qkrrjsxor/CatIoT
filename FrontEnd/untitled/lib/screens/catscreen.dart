@@ -55,7 +55,8 @@ class _MyCatState extends State<CatScreen> {
         future: _initializeVideoPlayerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return AspectRatio(
+            return
+              AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
               child: VideoPlayer(_controller),
             );
@@ -66,7 +67,7 @@ class _MyCatState extends State<CatScreen> {
                   SizedBox(height: 300),
                   Text(
                     '우리집 고양이 보러가는중...',
-                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                   ),
                   CircularProgressIndicator(),
                 ],
@@ -74,6 +75,7 @@ class _MyCatState extends State<CatScreen> {
             );
           }
         },
+
       ),
 
       // floatingActionButton: FloatingActionButton(
