@@ -10,7 +10,8 @@ import '../screens/logincheck.dart';
 import '../screens/mainpage.dart';
 
 class FeederService {
-  final String baseUrl = 'http://10.0.2.2:8080/api/meal';
+  // final String baseUrl = 'http://10.0.2.2:8080/api/meal';
+  final String baseUrl = 'http://i11a205.p.ssafy.io:8080/api/meal';
 
   // 수동 급여
   Future<void> manualFeed(
