@@ -6,10 +6,12 @@ import 'dart:convert';
 import 'package:untitled/screens/login.dart';
 
 class SignupCheck {
-  final String baseUrl = 'http://10.0.2.2:8080/api/user';
+  // final String baseUrl = 'http://10.0.2.2:8080/api/user';
+  final String baseUrl = 'http://i11a205.p.ssafy.io:8080/api/user';
 
   Future<void> signup(BuildContext context, String userId, String password,
       String catName, String catGender, String catAge) async {
+    print('signup 함수 실행');
     final response = await http.post(
       Uri.parse('$baseUrl/signup'),
       headers: {'Content-Type': 'application/json'},
@@ -22,6 +24,7 @@ class SignupCheck {
         }
       }),
     );
+    print('post요청 보냄');
 
     if (response.statusCode == 200) {
       print('회원가입 성공:${response.body}');

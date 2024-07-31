@@ -14,7 +14,8 @@ import 'login.dart';
 List<dynamic>? CatInfo;
 
 class LoginCheck {
-  final String baseUrl = 'http://10.0.2.2:8080/api/user';
+  // final String baseUrl = 'http://10.0.2.2:8080/api/user';
+  final String baseUrl = 'http://i11a205.p.ssafy.io:8080/api/user';
   final CookieManager cookieManager = CookieManager();
   var loginAnswer = false;
 

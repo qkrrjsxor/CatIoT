@@ -44,7 +44,7 @@
     </update>
     
     <!-- 스케줄 조회 -->
-    <select id="selectScheduleByCatId" parameterType="int">
+    <select id="selectScheduleByCatId" parameterType="int" resultType="MealSchedule">
     	SELECT * FROM meal_schedule
     	WHERE cat_id = #{catId}
     </select>
